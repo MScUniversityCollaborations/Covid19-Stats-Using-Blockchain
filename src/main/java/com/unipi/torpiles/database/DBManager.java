@@ -55,7 +55,7 @@ public class DBManager extends BlockChain {
                 genesisBlock.mineBlock(difficulty);
                 blocklist.add(genesisBlock);
                 int previdinit = 0;
-                String sql2 = "INSERT INTO Stats (LOCATION, DT, TS, CONFIRMED, DEATHS, RECOVERD, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
+                String sql2 = "INSERT INTO Stats (LOCATION, DT, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
                         "VALUES ('" +statistic.location+"','" +statistic.dt+"','" +statistic.ts+"'," +
                         "'" +statistic.confirmed+"', '" +statistic.deaths+"', '" +previdinit+"', '" +genesisBlock.hash+"', '"+genesisBlock.previousHash+"', '"+genesisBlock.getTimeStamp()+"', '"+genesisBlock.getNonce()+"')";
                 stmt.executeUpdate(sql2);
