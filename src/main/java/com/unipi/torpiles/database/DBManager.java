@@ -15,12 +15,12 @@ public class DBManager extends BlockChain {
 
     public DBManager() {
         String url = "jdbc:derby:covid19_stats;create=true";
-        // Creating the Statistics table if it doesn't exist.
+
         /* Legend:
         *  DT: Date Time
         *  TS: TimeStamp in Long
         *
-        * */
+        * Creating the Statistics table if it doesn't exist. */
         String table = "CREATE TABLE IF NOT EXISTS STATS"
                 + "(ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                 + "LOCATION TEXT NOT NULL,"
