@@ -1,8 +1,8 @@
 package com.unipi.torpiles.database;
 
+import com.unipi.torpiles.models.Statistic;
 import com.unipi.torpiles.utils.Block;
 import com.unipi.torpiles.utils.BlockChain;
-import com.unipi.torpiles.models.Statistic;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -50,14 +50,25 @@ public class DBManager extends BlockChain {
             // If DB is empty
             if (!rs.next()) {
                 //Initializing the empty DB with 1 entry of a fake statistic.
-                Statistic statistic = new Statistic ("",0, 0,0,0, LocalDate.now(), new Date().getTime());
-                Block genesisBlock = new Block(statistic.jsonMaker(), UUID.randomUUID().toString());
+                Statistic statistic = new Statistic (
+                        "",
+                        0,
+                        0,
+                        0,
+                        0,
+                        LocalDate.now(),
+                        new Date().getTime()
+                );
+                Block genesisBlock = new Block(statistic.jsonMaker(),
+                        UUID.randomUUID().toString());
                 genesisBlock.mineBlock(difficulty);
                 blocklist.add(genesisBlock);
-                int previdinit = 0;
-                String sql2 = "INSERT INTO Stats (LOCATION, DT, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
+
+                int prevIdInit = 0;
+                String sql2 = "INSERT INTO Stats (" +
+                        "LOCATION, DT, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
                         "VALUES ('" +statistic.location+"','" +statistic.dt+"','" +statistic.ts+"'," +
-                        "'" +statistic.confirmed+"', '" +statistic.deaths+"', '" +previdinit+"', '" +genesisBlock.hash+"', '"+genesisBlock.previousHash+"', '"+genesisBlock.getTimeStamp()+"', '"+genesisBlock.getNonce()+"')";
+                        "'" +statistic.confirmed+"', '" +statistic.deaths+"', '" +prevIdInit+"', '" +genesisBlock.hash+"', '"+genesisBlock.previousHash+"', '"+genesisBlock.getTimeStamp()+"', '"+genesisBlock.getNonce()+"')";
                 stmt.executeUpdate(sql2);
                 rs.close();
             }
@@ -66,7 +77,8 @@ public class DBManager extends BlockChain {
             {
                 String hash = rs.getString("hash");
                 String prevHash = rs.getString("prevHash");
-                long blockTimestamp = Long.decode(rs.getString("blockTimestamp"));
+                long blockTimestamp = Long.decode(rs.getString
+                        ("blockTimestamp"));
                 int nonce = rs.getInt("nonce");
 
                 // Data
@@ -76,9 +88,10 @@ public class DBManager extends BlockChain {
                 Integer recovered = rs.getInt("recovered");
                 Integer active = rs.getInt("active");
 
-                String data = new Statistic(location, confirmed, deaths, recovered, active).jsonMaker();
+                String data = new Statistic(location, confirmed, deaths,
+                        recovered, active).jsonMaker();
 
-                Block currentBlock = new Block ("",prevHash);
+                Block currentBlock = new Block("",prevHash);
                 currentBlock.setTimeStamp(blockTimestamp);
                 currentBlock.setNonce(nonce);
                 currentBlock.setData(data);

@@ -8,20 +8,18 @@ public class BlockChain {
 
     public static int difficulty = 6;
 
-    public static void addblock(String input)
+    public static void addBlock(String input)
     {
-        if (blocklist.size() > 0)
-        {
-            Block currentBlock = new Block(input, blocklist.get(blocklist.size()-1).hash);
-            currentBlock.mineBlock(difficulty);
-            blocklist.add(currentBlock);
-        }
-        else
-        {
-            Block currentBlock = new Block(input, UUID.randomUUID().toString());
-            currentBlock.mineBlock(difficulty);
-            blocklist.add(currentBlock);
-        }
-    }
+        Block currentBlock;
 
+        if (blocklist.size() > 0) {
+            currentBlock = new Block(input, blocklist.get(blocklist.size() - 1).hash);
+        }
+        else {
+            currentBlock = new Block(input, UUID.randomUUID().toString());
+        }
+
+        currentBlock.mineBlock(difficulty);
+        blocklist.add(currentBlock);
+    }
 }
