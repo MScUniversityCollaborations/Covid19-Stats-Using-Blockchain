@@ -22,15 +22,15 @@ public class UserInput {
     public List<String> months(){
         System.out.println("""
                             Input time period of months to display results 
-                            (example: 1-3  is January to March etc.): """);
+                            (examples: 1-3 or 3-1  is January to March etc.): """);
         List<String> sortMonths = null;
         try {
             String monthUserInput = sc.nextLine();
             sortMonths = List.of(monthUserInput.split("-"));
-            sortMonths = sortMonths.stream().sorted((month1, month2) -> {
-                System.err.println("Sort:" + month1 + "," + month2);
-                return month1.compareTo(month2);
-           }).toList();
+            //System.err.println("Sort:" + month1 + "," + month2);
+            sortMonths = sortMonths
+                    .stream()
+                    .sorted(String::compareTo).toList();
 
             //System.err.println(sortMonths.get(0) + "  " + sortMonths.get(1));
             Month month1 = Month.of(Integer.parseInt(sortMonths.get(0)));

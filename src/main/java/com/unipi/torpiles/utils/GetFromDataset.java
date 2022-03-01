@@ -1,8 +1,10 @@
 package com.unipi.torpiles.utils;
 
+import java.util.List;
+
 public class GetFromDataset {
 
-    public void searchByCountryAndMonths(String country, char mont1, char month2 ){
+    public void searchByCountryAndMonths(String country, List<String> months){
 
 
 
