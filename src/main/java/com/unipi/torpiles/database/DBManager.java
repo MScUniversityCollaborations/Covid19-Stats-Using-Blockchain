@@ -1,7 +1,7 @@
 package com.unipi.torpiles.database;
 
-import com.unipi.torpiles.Utils.Block;
-import com.unipi.torpiles.Utils.BlockChain;
+import com.unipi.torpiles.utils.Block;
+import com.unipi.torpiles.utils.BlockChain;
 import com.unipi.torpiles.models.Statistic;
 
 import java.sql.*;
