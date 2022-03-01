@@ -1,10 +1,8 @@
-package com.unipi.torpiles.Utils;
+package com.unipi.torpiles.utils;
 
 import java.util.Scanner;
-import com.unipi.torpiles.Utils.Constants;
-import jdk.swing.interop.SwingInterOpUtils;
 
-import static com.unipi.torpiles.Utils.Constants.*;
+import static com.unipi.torpiles.utils.Constants.*;
 
 public class UserInput {
 
@@ -21,12 +19,12 @@ public class UserInput {
     public String months(){
         System.out.println("Enter months, ex: 1-5 ");
         String months = sc.nextLine();
-        System.out.println("Search for " + months + "...." );
+        System.out.println(" Search for " + months + "...." );
 
         return months;
     }
 
-    public int choices(){
+    public String choices(){
         System.out.println(
                 """ 
                     """ + LINE + """
@@ -36,10 +34,15 @@ public class UserInput {
                 """
         );
 
-        System.out.println("Press a number [1 or 2 or 3]:");
-        int choice = sc.nextInt();
+        final String[] listChoices = {"1", "2","3"};
+        String choice ;
+        while (true){
+            System.out.println("Please press a number [1 or 2 or 3]:");
+            choice = sc.nextLine();
+            for (String c : listChoices) {
+                if(c.equals(choice)) return choice ;
+             }
+        }
 
-        return choice;
     }
-
 }
