@@ -24,15 +24,12 @@ public class Main {
     private static void resultStats(String choice) throws IOException {
 
         switch (choice) {
-            case "1" -> {
-                new GetFromAPI().searchByCountry(new UserInput().country());
+            case "1" -> new GetFromAPI().searchByCountry(new UserInput().country());
 
-            }
             case "2" -> {
                 new UserInput().months();
                 new UserInput().country();
             }
-
             case "3" -> System.out.println("test 3");
             default -> {
                 System.out.println(ERR_WRONG);

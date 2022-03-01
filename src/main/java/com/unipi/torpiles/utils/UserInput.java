@@ -11,7 +11,7 @@ public class UserInput {
     public String country(){
         System.out.println("Enter country, ex: Greece ");
         String country = sc.nextLine();
-        System.out.println("Search for " + country + "...." );
+        System.out.println("Search for " + country + "....\n" );
 
         return country;
     }
