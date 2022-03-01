@@ -14,24 +14,30 @@ public class Main {
         System.out.println(TITLE);
 
         UserInput userInput = new UserInput();
-        //resultStats(userInput.choices());
+        resultStats(userInput.choices());
 
-        new GetFromAPI().searchByCountry("Italy");
+       // new GetFromAPI().searchByCountry("Italdy");
 
     }
 
 
-    private static void resultStats(String choice){
+    private static void resultStats(String choice) throws IOException {
 
         switch (choice) {
-            case "1" -> new UserInput().country();
+            case "1" -> {
+                new GetFromAPI().searchByCountry(new UserInput().country());
+
+            }
             case "2" -> {
                 new UserInput().months();
                 new UserInput().country();
             }
 
             case "3" -> System.out.println("test 3");
-            default -> System.out.println("Invalid choice.");
+            default -> {
+                System.out.println(ERR_WRONG);
+
+            }
         }
 
     }

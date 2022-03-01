@@ -9,7 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
 
-import static com.unipi.torpiles.utils.Constants.URL_COUNTRY_API;
+import static com.unipi.torpiles.utils.Constants.*;
 
 
 public class GetFromAPI {
@@ -60,9 +60,13 @@ public class GetFromAPI {
                     \n-Last Update:\040""" + result.get("dt") + """
                 """
                     );
-                }else System.out.println("Sorry, no country data found.");
-
+                }else {
+                    System.err.println(ERR_WRONG);
+                    System.err.println(ERR_NOT_FOUND_COUNTRY);
+                    new UserInput().country();
+                }
             } catch (Exception ex) {
+                System.err.println(ERR_WRONG);
                 ex.printStackTrace();
             }
         }
