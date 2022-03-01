@@ -1,4 +1,4 @@
-package com.unipi.torpiles.Utils;
+package com.unipi.torpiles.utils;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
