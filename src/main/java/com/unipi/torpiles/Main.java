@@ -14,9 +14,9 @@ public class Main {
         System.out.println(TITLE);
 
         UserInput userInput = new UserInput();
-        resultStats(userInput.choices());
+        //resultStats(userInput.choices());
 
-       // new GetFromAPI().searchByCountry("Italdy");
+        new UserInput().months();
 
     }
 

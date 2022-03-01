@@ -1,5 +1,8 @@
 package com.unipi.torpiles.utils;
 
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static com.unipi.torpiles.utils.Constants.*;
@@ -16,12 +19,29 @@ public class UserInput {
         return country;
     }
 
-    public String months(){
-        System.out.println("Enter months, ex: 1-5 ");
-        String months = sc.nextLine();
-        System.out.println(" Search for " + months + "...." );
+    public List<String> months(){
+        System.out.println("""
+                            Input time period of months to display results 
+                            (example: 1-3  is January to March etc.): """);
+        List<String> sortMonths = null;
+        try {
+            String monthUserInput = sc.nextLine();
+            sortMonths = List.of(monthUserInput.split("-"));
+            sortMonths = sortMonths.stream().sorted((month1, month2) -> {
+                System.err.println("Sort:" + month1 + "," + month2);
+                return month1.compareTo(month2);
+           }).toList();
 
-        return months;
+            //System.err.println(sortMonths.get(0) + "  " + sortMonths.get(1));
+            Month month1 = Month.of(Integer.parseInt(sortMonths.get(0)));
+            Month month2 = Month.of(Integer.parseInt(sortMonths.get(1)));
+
+            System.err.println("Search from\040" + month1 +  "\040to\040" + month2);
+            return sortMonths;
+        } catch (Exception e) {
+            System.err.println(ERR_WRONG);
+        }
+        return sortMonths;
     }
 
     public String choices(){
