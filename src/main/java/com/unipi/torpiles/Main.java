@@ -16,7 +16,7 @@ public class Main {
         UserInput userInput = new UserInput();
         //resultStats(userInput.choices());
 
-        new GetFromAPI().searchByCountry("Greece");
+        new GetFromAPI().searchByCountry("Italy");
 
     }
 

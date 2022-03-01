@@ -27,7 +27,6 @@ public class GetFromAPI {
                 new InputStreamReader(
                         urlConnect.getInputStream()));
 
-
         String resultsFromAPI;
         while ((resultsFromAPI = buffer.readLine()) != null){
 
@@ -49,14 +48,20 @@ public class GetFromAPI {
                 // Create new map for data in "data"
                 Map<?,?> resultData = (Map<?, ?>) result.get("data");
 
-                // Print result in console
-                System.out.println("""
+                //System.err.println(result);
+                //Check if country exists
+                if(resultData.get("location") != null){
+
+                    // Print result in console
+                    System.out.println("""
                     Stats for:\040""" +resultData.get("location") +  """
                     \n-Confirmed:\040""" +resultData.get("confirmed")  + """
                     \n-Deaths:\040""" + resultData.get("deaths") + """
                     \n-Last Update:\040""" + result.get("dt") + """
                 """
-                );
+                    );
+                }else System.out.println("Sorry, no country data found.");
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
