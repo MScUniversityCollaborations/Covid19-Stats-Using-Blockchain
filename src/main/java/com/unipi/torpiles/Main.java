@@ -1,6 +1,7 @@
 package com.unipi.torpiles;
 
 import com.unipi.torpiles.utils.GetFromAPI;
+import com.unipi.torpiles.utils.GetFromDataset;
 import com.unipi.torpiles.utils.UserInput;
 
 import java.io.IOException;
@@ -16,7 +17,9 @@ public class Main {
         UserInput userInput = new UserInput();
         //resultStats(userInput.choices());
 
-        new UserInput().months();
+        //For Test
+        //new UserInput().months();
+        new GetFromDataset().searchByCountryAndMonths();
 
     }
 
