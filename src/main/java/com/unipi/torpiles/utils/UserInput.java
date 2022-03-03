@@ -50,12 +50,14 @@ public class UserInput {
     }
 
     public String choices(){
+        //TODO press kye for exit
         System.out.println(
                 """ 
                     """ + LINE + """
                     - Press 1:""" + SEARCH_BY_COUNTRY  + """
                     - Press 2:""" + SEARCH_BY_MONTHS_AND_COUNTRY + """
                     - Press 3:""" + VIEW_STATISTICS + LINE + """
+                    - Press e for exit
                 """
         );
 
