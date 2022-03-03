@@ -5,6 +5,7 @@ import com.unipi.torpiles.models.Records;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,7 @@ public class GetFromDataset {
     
     List<String> monthsForResult = new ArrayList<>();
 
-    public void searchByCountryAndMonths(/*String country, List<String> months*/){
+    public void searchByCountryAndMonths(String countryFromUser, List<String> months){
 
         try {
 
@@ -31,9 +32,9 @@ public class GetFromDataset {
             // Create an array of JSON File
             Records[] recordArray = gson.fromJson(buffer, Records[].class);
 
-            String[] months = {"1","12"}; // array for debug
-            int month1 = Integer.parseInt(months[0]);
-            int month2 = Integer.parseInt(months[1]);
+            //String[] months = {"1","12"}; // array for debug
+            int month1 = Integer.parseInt(months.get(0));
+            int month2 = Integer.parseInt(months.get(1));
             int i = 0;
             while(month1 + i <= month2){
                 monthsForResult.add(Integer.toString(month1 + i));
@@ -41,7 +42,7 @@ public class GetFromDataset {
             }
 
             Arrays.stream(recordArray)
-                    .filter(country -> country.getCountry().equals("Greece"))
+                    .filter(country -> country.getCountry().equals(countryFromUser))
                     .forEach(data->{
                         for(String month : monthsForResult){
                             if(data.getMonth().equals(month)){
@@ -51,8 +52,12 @@ public class GetFromDataset {
                         }
                         });
 
-            System.err.println("Total deaths : " + totalDeaths);
-            System.err.println("Total cases  :" + totalCases);
+            // Display information
+            System.out.print(Color.BLUE + "Results for " + countryFromUser + Color.RESET);
+            System.out.println(Color.BLUE + " from " + Month.of(month1).toString() +
+                                " to " + Month.of(month2) + ": " + Color.RESET);
+            System.out.println(Color.CYAN + "Total deaths: " + Color.RESET + totalDeaths);
+            System.out.println(Color.CYAN + "Total cases: " + Color.RESET + totalCases);
 
 //            Arrays.stream(recordArray)
 //                    .filter(country -> country.getCountry().equals("Greece"))

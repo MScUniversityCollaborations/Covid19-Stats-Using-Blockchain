@@ -13,9 +13,9 @@ public final class Constants {
 
     //URL and PATH
     public static final String URL_COUNTRY_API = "https://covid2019-api.herokuapp.com/v2/country/";
-    public static final String PATH_COVID_DATA = "src/main/java/com/unipi/torpiles/dataset/covidData.json";
+    public static final String PATH_COVID_DATA = "src/dataset/covidData.json";
 
     //Message
-    public static final String ERR_WRONG = "Something went wrong\n";
+    public static final String ERR_WRONG = "Something went wrong.\n";
     public static final String ERR_NOT_FOUND_COUNTRY = "Sorry, no country data found.\n\n";
 }

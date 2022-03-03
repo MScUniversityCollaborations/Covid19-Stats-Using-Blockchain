@@ -48,22 +48,21 @@ public class GetFromAPI {
                 // Create new map for data in "data"
                 Map<?,?> resultData = (Map<?, ?>) result.get("data");
 
-                //System.err.println(result);
                 //Check if country exists
                 if(resultData.get("location") != null){
 
                     // Print result in console
                     System.out.println("""
                     Stats for:\040""" +resultData.get("location") +  """
-                    \n-Confirmed:\040""" +resultData.get("confirmed")  + """
+                    \n-Cases:\040""" +resultData.get("confirmed")  + """
                     \n-Deaths:\040""" + resultData.get("deaths") + """
                     \n-Last Update:\040""" + result.get("dt") + """
                 """
                     );
                 }else {
-                    System.err.println(ERR_WRONG);
-                    System.err.println(ERR_NOT_FOUND_COUNTRY);
-                    new UserInput().country();
+                    System.out.print(Color.RED + ERR_WRONG + Color.RESET);
+                    System.out.println(Color.RED + ERR_NOT_FOUND_COUNTRY + Color.RESET);
+                    searchByCountry(new UserInput().country());
                 }
             } catch (Exception ex) {
                 System.err.println(ERR_WRONG);
