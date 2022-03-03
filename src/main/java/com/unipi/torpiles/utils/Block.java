@@ -11,13 +11,13 @@ public class Block {
     private String data;
     private long timeStamp;
     private int nonce;
-    private boolean miningFinish; //Needed to find out whether a thread has finished its work
+    private boolean miningFinish; // Need this to find out whether a thread has finished it's task.
 
     public Block(String data,String previousHash) {
         this.data = data;
         this.previousHash = previousHash;
         this.timeStamp = new Date().getTime();
-        this.nonce = Integer.MIN_VALUE;
+        this.nonce = Integer.MIN_VALUE; // This variable is holding the minimum value an int can have.
         this.hash = calculateHash(this.nonce);
     }
 
@@ -40,16 +40,20 @@ public class Block {
         List<Thread> threads = new ArrayList<>();
         Runnable runnableTask = () -> {
             String target = new String(new char[difficulty]).replace('\0', '0');
-            int tnonce = this.nonce; //each thread will save a copy of the initial nonce and hash in order not to mess the original ones up
+            // Each thread will save a copy of the initial nonce
+            // and hash in order not to mess the original ones up.
+            int tnonce = this.nonce;
             String thash = this.hash;
+
             while(!thash.substring( 0, difficulty).equals(target)&&!miningFinish) {
                 tnonce ++;
                 thash = calculateHash(tnonce);
             }
+            // Mining has finished.
             miningFinish = true;
 
             synchronized (this) {
-                if (miningFinish&&thash.substring( 0, difficulty).equals(target)) {
+                if (miningFinish && thash.substring( 0, difficulty).equals(target)) {
                     this.nonce = tnonce;
                     this.hash = thash;
                     long endTime = System.nanoTime();
@@ -63,7 +67,8 @@ public class Block {
                 }
             }
         };
-        for (int i=0;i<5;i++)  //Using 5 simple threads.
+        // Using 5 simple threads.
+        for (int i = 0; i < 5; i++)
         {
             Thread thread = new Thread(runnableTask);
             thread.start();
