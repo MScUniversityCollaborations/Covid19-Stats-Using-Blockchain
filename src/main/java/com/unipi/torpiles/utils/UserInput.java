@@ -1,7 +1,6 @@
 package com.unipi.torpiles.utils;
 
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,8 +20,10 @@ public class UserInput {
 
     public List<String> months(){
         System.out.println("""
-                            Input time period of months to display results 
-                            (examples: 1-3 or 3-1  is January to March etc.): """);
+                            Input time period of months to display results
+                            (examples: 1-3 or 3-1  is January to March etc.):\040
+                            """);
+
         List<String> sortMonths = null;
         try {
             String monthUserInput = sc.nextLine();
@@ -33,10 +34,14 @@ public class UserInput {
                     .sorted(String::compareTo).toList();
 
             //System.err.println(sortMonths.get(0) + "  " + sortMonths.get(1));
-            Month month1 = Month.of(Integer.parseInt(sortMonths.get(0)));
-            Month month2 = Month.of(Integer.parseInt(sortMonths.get(1)));
+            //Month month1 = Month.of(Integer.parseInt(sortMonths.get(0)));
+            //Month month2 = Month.of(Integer.parseInt(sortMonths.get(1)));
 
-            System.err.println("Search from\040" + month1 +  "\040to\040" + month2);
+            System.err.println(
+                    "Search from\040" +
+                    Month.of(Integer.parseInt(sortMonths.get(0))) + "\040to\040" +
+                            Month.of(Integer.parseInt(sortMonths.get(1))));
+
             return sortMonths;
         } catch (Exception e) {
             System.err.println(ERR_WRONG);
@@ -63,6 +68,5 @@ public class UserInput {
                 if(c.equals(choice)) return choice ;
              }
         }
-
     }
 }
