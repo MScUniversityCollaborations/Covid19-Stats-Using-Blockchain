@@ -1,52 +1,68 @@
 package com.unipi.torpiles.utils;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.unipi.torpiles.models.Records;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.unipi.torpiles.utils.Constants.PATH_COVID_DATA;
 
 public class GetFromDataset {
+    private int totalDeaths = 0 ;
+    private int totalCases = 0;
+    
+    List<String> monthsForResult = new ArrayList<>();
 
     public void searchByCountryAndMonths(/*String country, List<String> months*/){
 
         try {
 
-            // create Gson instance
+            // Create Gson instance
             Gson gson = new Gson();
 
-            // create a reader
+            // Create a reader
             BufferedReader buffer = new BufferedReader(
                     new FileReader(PATH_COVID_DATA));
 
-            //convert the json string back to object
-            Map<?, ?> result = gson.fromJson(buffer, Map.class);
-            Map<?,?> resultData = (Map<?, ?>) result.get("records");
+            // Create an array of JSON File
+            Records[] recordArray = gson.fromJson(buffer, Records[].class);
 
-            System.out.println(resultData);
-            // print map entries
-//          for (Map.Entry<?, ?> entry : result.entrySet()) {
-//                System.out.println(entry.getKey() + "=" + entry.getValue());
-//
-//            }
+            String[] months = {"1","12"}; // array for debug
+            int month1 = Integer.parseInt(months[0]);
+            int month2 = Integer.parseInt(months[1]);
+            int i = 0;
+            while(month1 + i <= month2){
+                monthsForResult.add(Integer.toString(month1 + i));
+                i++;
+            }
 
-           String result2 = String.valueOf(result.values().
-                    stream() // converting into Stream
-                    .filter("records"::equals).toList());;
+            Arrays.stream(recordArray)
+                    .filter(country -> country.getCountry().equals("Greece"))
+                    .forEach(data->{
+                        for(String month : monthsForResult){
+                            if(data.getMonth().equals(month)){
+                                totalDeaths += data.getDeaths();
+                                totalCases  += data.getCases();
+                            }
+                        }
+                        });
+
+            System.err.println("Total deaths : " + totalDeaths);
+            System.err.println("Total cases  :" + totalCases);
+
+//            Arrays.stream(recordArray)
+//                    .filter(country -> country.getCountry().equals("Greece"))
+//                    .forEach(data->{
+//                        totalDeaths += data.getDeaths();
+//                        totalCases += data.getCases();
+//                    });
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 }

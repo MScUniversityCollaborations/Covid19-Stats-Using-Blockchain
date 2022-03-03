@@ -5,6 +5,7 @@ import com.unipi.torpiles.utils.GetFromDataset;
 import com.unipi.torpiles.utils.UserInput;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static com.unipi.torpiles.utils.Constants.*;
 
@@ -20,7 +21,6 @@ public class Main {
         //For Test
         //new UserInput().months();
         new GetFromDataset().searchByCountryAndMonths();
-
     }
 
 
@@ -34,12 +34,7 @@ public class Main {
                 new UserInput().country();
             }
             case "3" -> System.out.println("test 3");
-            default -> {
-                System.out.println(ERR_WRONG);
-
-            }
+            default -> System.out.println(ERR_WRONG);
         }
-
     }
-
 }
