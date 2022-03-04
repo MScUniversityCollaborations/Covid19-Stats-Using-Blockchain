@@ -5,7 +5,6 @@ import com.unipi.torpiles.utils.Block;
 import com.unipi.torpiles.utils.BlockChain;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -40,7 +39,6 @@ public class DBManager extends BlockChain {
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt = conn.createStatement())
         {
-            DatabaseMetaData meta = conn.getMetaData();
             System.out.println("Connection to the database established.");
             stmt.execute(table);
 
@@ -56,7 +54,6 @@ public class DBManager extends BlockChain {
                         0,
                         0,
                         0,
-                        LocalDate.now(),
                         new Date().getTime()
                 );
                 Block genesisBlock = new Block(statistic.jsonMaker(),
@@ -66,11 +63,10 @@ public class DBManager extends BlockChain {
 
                 int prevIdInit = 0;
                 String sql2 = "INSERT INTO Stats (" +
-                        "LOCATION, DT, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
-                        "VALUES ('" +statistic.location+"','" +statistic.dt+"','" +statistic.ts+"'," +
+                        "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
+                        "VALUES ('" +statistic.location+"','" +statistic.ts+"'," +
                         "'" +statistic.confirmed+"', '" +statistic.deaths+"', '" +prevIdInit+"', '" +genesisBlock.hash+"', '"+genesisBlock.previousHash+"', '"+genesisBlock.getTimeStamp()+"', '"+genesisBlock.getNonce()+"')";
                 stmt.executeUpdate(sql2);
-                rs.close();
             }
             // If DB is not empty, we just read the latest DB entry and add it in our arraylist, so we can continue our work
             else
@@ -97,8 +93,8 @@ public class DBManager extends BlockChain {
                 currentBlock.setData(data);
                 currentBlock.hash=hash;
                 blocklist.add(currentBlock);
-                rs.close();
             }
+            rs.close();
 
         } catch (SQLException e) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
