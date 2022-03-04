@@ -1,5 +1,6 @@
 package com.unipi.torpiles;
 
+import com.unipi.torpiles.database.DBManager;
 import com.unipi.torpiles.utils.Color;
 import com.unipi.torpiles.utils.GetFromAPI;
 import com.unipi.torpiles.utils.GetFromDataset;
@@ -12,15 +13,19 @@ import static com.unipi.torpiles.utils.Constants.TITLE;
 
 public class Main {
 
+    static DBManager dbManagerInstance = DBManager.getInstance();
+
     public static void main(String[] args) throws IOException {
 
         System.out.println(Color.CYAN + TITLE + Color.RESET);
 
+        dbManagerInstance.initializeTable();
+
         resultStats(new UserInput().choices());
 
-        //For Test
-        //new UserInput().months();
-        //new GetFromDataset().searchByCountryAndMonths();
+        // For Test
+        // new UserInput().months();
+        // new GetFromDataset().searchByCountryAndMonths();
     }
 
 

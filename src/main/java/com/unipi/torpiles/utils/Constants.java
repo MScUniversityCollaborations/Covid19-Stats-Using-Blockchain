@@ -11,6 +11,9 @@ public final class Constants {
     public static final String SEARCH_BY_MONTHS_AND_COUNTRY = "Search for monthly results for a specific year by country.\n";
     public static final String VIEW_STATISTICS = "View statistics.\n";
 
+    // Database
+    public static final String TABLE_STATS = "STATS";
+
     //URL and PATH
     public static final String URL_COUNTRY_API = "https://covid2019-api.herokuapp.com/v2/country/";
     public static final String PATH_COVID_DATA = "src/main/resources/dataset/covidData.json";

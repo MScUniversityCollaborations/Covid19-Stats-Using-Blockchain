@@ -1,13 +1,11 @@
 package com.unipi.torpiles.database;
 
 import com.unipi.torpiles.models.Statistic;
-import com.unipi.torpiles.utils.Block;
 import com.unipi.torpiles.utils.BlockChain;
 import com.unipi.torpiles.utils.Constants;
 
 import java.sql.*;
 import java.util.Date;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,36 +36,48 @@ public class DBManager extends BlockChain {
         try {
             Connection connection = connect();
 
-            /* Legend:
-            *  DT: Date Time
-            *  TS: TimeStamp in Long
-            *
-            * Creating the Statistics table if it doesn't exist. */
-            String table = "CREATE TABLE IF NOT EXISTS STATS"
-                    + "(ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-                    + "LOCATION TEXT NOT NULL,"
-                    + "DT DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,"
-                    + "TS BIGINT NOT NULL DEFAULT CURRENT_TIMESTAMP,"
-                    + "CONFIRMED INTEGER NOT NULL,"
-                    + "DEATHS INTEGER NOT NULL,"
-                    + "RECOVERED INTEGER NOT NULL,"
-                    + "ACTIVE INTEGER NOT NULL,"
-                    + "PREV_ID INTEGER,"
-                    + "HASH TEXT,"
-                    + "PREV_HASH TEXT,"
-                    + "BLOCK_TS TEXT,"
-                    + "NONCE TEXT)";
+            DatabaseMetaData dbMetaData = connection.getMetaData();
 
+            ResultSet rs = dbMetaData.getTables(null, null, Constants.TABLE_STATS,null);
+            if (rs.next()) {
+                System.out.println("Table " + rs.getString("TABLE_NAME") + " already exists, skipping creating it!");
+            }
+            else {
+                /* Legend:
+                 *  DT: Date Time
+                 *  TS: TimeStamp in Long
+                 *
+                 * Creating the Statistics table if it doesn't exist. */
+                String table = "CREATE TABLE STATS"
+                        + "(ID INTEGER NOT NULL PRIMARY KEY,"
+                        + "LOCATION VARCHAR(255) NOT NULL,"
+                        + "TS TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+                        + "CONFIRMED INTEGER NOT NULL,"
+                        + "DEATHS INTEGER NOT NULL,"
+                        + "RECOVERED INTEGER NOT NULL,"
+                        + "ACTIVE INTEGER NOT NULL,"
+                        + "PREV_ID INTEGER,"
+                        + "HASH CLOB,"
+                        + "PREV_HASH CLOB,"
+                        + "BLOCK_TS VARCHAR(255),"
+                        + "NONCE CLOB)";
+
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(table);
+
+                System.out.println("Table '"+Constants.TABLE_STATS+"' has been created successfully!");
+
+                // Closing the statement.
+                statement.close();
+            }
+
+            /*String sql = "SELECT * FROM STATS WHERE id = (SELECT MAX(id) FROM STATS ORDER BY id ASC)";
             Statement statement = connection.createStatement();
-            statement.executeUpdate(table);
 
-            String sql = "SELECT * FROM Stats WHERE id = (SELECT MAX(id) FROM Stats ORDER BY id ASC)";
-            statement = connection.createStatement();
-
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs2 = statement.executeQuery(sql);
 
             // If DB is empty
-            if (!rs.next()) {
+            if (!rs2.next()) {
                 // Initializing the empty DB with 1 entry of a fake statistic.
                 Statistic statistic = new Statistic (
                         "",
@@ -83,7 +93,7 @@ public class DBManager extends BlockChain {
                 blocklist.add(genesisBlock);
 
                 int prevIdInit = 0;
-                String sqlInsert = "INSERT INTO Stats (" +
+                String sqlInsert = "INSERT INTO '"+Constants.TABLE_STATS+"' (" +
                         "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
                         "VALUES ('" +statistic.location+"','" +statistic.ts+"'," +
                         "'" +statistic.confirmed+"', '" +statistic.deaths+"', '" +prevIdInit+"', '" +genesisBlock.hash+"', '"+genesisBlock.previousHash+"', '"+genesisBlock.getTimeStamp()+"', '"+genesisBlock.getNonce()+"')";
@@ -92,18 +102,18 @@ public class DBManager extends BlockChain {
             // If DB is not empty, we just read the latest DB entry and add it in our arraylist, so we can continue our work
             else
             {
-                String hash = rs.getString("hash");
-                String prevHash = rs.getString("prevHash");
-                long blockTimestamp = Long.decode(rs.getString
+                String hash = rs2.getString("hash");
+                String prevHash = rs2.getString("prevHash");
+                long blockTimestamp = Long.decode(rs2.getString
                         ("blockTimestamp"));
-                int nonce = rs.getInt("nonce");
+                int nonce = rs2.getInt("nonce");
 
                 // Data
-                String location = rs.getString("location");
-                Integer confirmed = rs.getInt("confirmed");
-                Integer deaths = rs.getInt("deaths");
-                Integer recovered = rs.getInt("recovered");
-                Integer active = rs.getInt("active");
+                String location = rs2.getString("location");
+                Integer confirmed = rs2.getInt("confirmed");
+                Integer deaths = rs2.getInt("deaths");
+                Integer recovered = rs2.getInt("recovered");
+                Integer active = rs2.getInt("active");
 
                 String data = new Statistic(location, confirmed, deaths,
                         recovered, active).jsonMaker();
@@ -115,12 +125,12 @@ public class DBManager extends BlockChain {
                 currentBlock.hash=hash;
                 blocklist.add(currentBlock);
             }
-            rs.close();
+            rs2.close();*/
 
             // Closing the connections.
-            statement.close();
+            // statement.close();
             connection.close();
-            System.out.println("Done!");
+
         } catch (SQLException e) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -146,7 +156,7 @@ public class DBManager extends BlockChain {
             ResultSet rs = statement.executeQuery(sql2);
             if (rs.next()) {
                 int prevId = rs.getInt(1);
-                String sql3 = "INSERT INTO Stats (" +
+                String sql3 = "INSERT INTO '"+Constants.TABLE_STATS+"' (" +
                         "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE)" +
                         "VALUES ('" +statistic.location+"','" +statistic.ts+"','" +statistic.confirmed+"'," +
                         "'" +statistic.deaths+"', '" +statistic.recovered+"', '" +statistic.active+"', " +
@@ -158,7 +168,7 @@ public class DBManager extends BlockChain {
                 rs.close();
             }
             else {
-                String sql = "INSERT INTO Stats (" +
+                String sql = "INSERT INTO '"+Constants.TABLE_STATS+"' (" +
                         "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, HASH, PREV_HASH, BLOCK_TS, NONCE)" +
                         "VALUES ('" +statistic.location+"','" +statistic.ts+"','" +statistic.confirmed+"'," +
                         "'" +statistic.deaths+"', '" +statistic.recovered+"', '" +statistic.active+"', " +
