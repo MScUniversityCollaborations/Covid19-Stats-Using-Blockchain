@@ -158,7 +158,7 @@ public class DBManager extends BlockChain {
                 rs.close();
             }
             else {
-                String sql = "INSERT INTO statistics (" +
+                String sql = "INSERT INTO Stats (" +
                         "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, HASH, PREV_HASH, BLOCK_TS, NONCE)" +
                         "VALUES ('" +statistic.location+"','" +statistic.ts+"','" +statistic.confirmed+"'," +
                         "'" +statistic.deaths+"', '" +statistic.recovered+"', '" +statistic.active+"', " +
