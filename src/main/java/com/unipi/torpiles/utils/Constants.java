@@ -14,6 +14,7 @@ public final class Constants {
     //URL and PATH
     public static final String URL_COUNTRY_API = "https://covid2019-api.herokuapp.com/v2/country/";
     public static final String PATH_COVID_DATA = "src/main/resources/dataset/covidData.json";
+    public static final String DERBY_URL = "jdbc:derby:covid19_stats;create=true";
 
     // Err Messages
     public static final String ERR_WRONG = "Something went wrong.\n";
