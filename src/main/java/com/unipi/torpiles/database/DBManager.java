@@ -83,11 +83,11 @@ public class DBManager extends BlockChain {
                 blocklist.add(genesisBlock);
 
                 int prevIdInit = 0;
-                String sql_Insert = "INSERT INTO Stats (" +
+                String sqlInsert = "INSERT INTO Stats (" +
                         "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
                         "VALUES ('" +statistic.location+"','" +statistic.ts+"'," +
                         "'" +statistic.confirmed+"', '" +statistic.deaths+"', '" +prevIdInit+"', '" +genesisBlock.hash+"', '"+genesisBlock.previousHash+"', '"+genesisBlock.getTimeStamp()+"', '"+genesisBlock.getNonce()+"')";
-                statement.executeUpdate(sql_Insert);
+                statement.executeUpdate(sqlInsert);
             }
             // If DB is not empty, we just read the latest DB entry and add it in our arraylist, so we can continue our work
             else
