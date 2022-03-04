@@ -7,13 +7,13 @@ import com.unipi.torpiles.utils.UserInput;
 
 import java.io.IOException;
 
-import static com.unipi.torpiles.utils.Constants.ERR_WRONG;
-import static com.unipi.torpiles.utils.Constants.TITLE;
+import static com.unipi.torpiles.utils.Constants.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
+        System.out.print(Color.BLUE + LINE + Color.RESET);
         System.out.println(Color.CYAN + TITLE + Color.RESET);
 
         resultStats(new UserInput().choices());
@@ -23,8 +23,7 @@ public class Main {
         //new GetFromDataset().searchByCountryAndMonths();
     }
 
-
-    private static void resultStats(String choice) throws IOException {
+    private static void resultStats(String choice) throws IOException, InterruptedException {
 
         switch (choice) {
             case "1" -> new GetFromAPI().searchByCountry(new UserInput().country());
@@ -42,7 +41,7 @@ public class Main {
 
             default -> System.out.println(Color.RED + ERR_WRONG + Color.RESET);
         }
-
+        Thread.sleep(1666);
         main(new String[] {"Call main again"});
     }
 }

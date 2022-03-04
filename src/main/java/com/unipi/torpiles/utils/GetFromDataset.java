@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.unipi.torpiles.utils.Constants.ERR_NOT_FOUND_COUNTRY;
-import static com.unipi.torpiles.utils.Constants.PATH_COVID_DATA;
+import static com.unipi.torpiles.utils.Constants.*;
 
 public class GetFromDataset {
     private int totalDeaths = 0;
@@ -21,6 +20,10 @@ public class GetFromDataset {
     private final List<String> monthsForResult = new ArrayList<>();
 
     public void searchByCountryAndMonths(List<String> months, String countryFromUser) {
+
+        ConsoleProgress progress = new ConsoleProgress();
+        progress.setDaemon(true);
+        progress.start();
 
         try {
 
@@ -33,6 +36,8 @@ public class GetFromDataset {
 
             // Create an array of JSON File
             Records[] recordArray = gson.fromJson(buffer, Records[].class);
+
+            progress.join();
 
             // Calculate months from search
             // ex: if user input: 3-8 then monthsForResult = {3,4,5,6,7,8}
@@ -51,8 +56,6 @@ public class GetFromDataset {
             boolean existCountry = Arrays.stream(recordArray)
                     .anyMatch(records -> records.getCountry().equals(COUNTRY));
 
-
-
             if(!existCountry){
                 System.out.println(ERR_NOT_FOUND_COUNTRY);
             } else {
@@ -67,12 +70,13 @@ public class GetFromDataset {
                             }
                         });
 
-                // Display information
-                System.out.print(Color.BLUE + "Results for " + COUNTRY + Color.RESET);
-                System.out.println(Color.BLUE + " from " + Month.of(month1).toString() +
-                        " to " + Month.of(month2) + ": " + Color.RESET);
-                System.out.println(Color.CYAN + "Total deaths: " + Color.RESET + totalDeaths);
-                System.out.println(Color.CYAN + "Total cases: " + Color.RESET + totalCases);
+                System.out.println(
+                        Color.BLUE + STATS + COUNTRY +
+                                " from " + Month.of(month1).toString() +
+                                " to " + Month.of(month2) + ": " + Color.RESET +
+                        Color.CYAN + TOTAL_DEATHS + Color.RESET + totalDeaths +
+                        Color.CYAN + TOTAL_CASES  + Color.RESET + totalCases
+                );
             }
 
 //            Arrays.stream(recordArray)
@@ -86,20 +90,4 @@ public class GetFromDataset {
             ex.printStackTrace();
         }
     }
-
-    String toCamelCase(String inputVal) {
-
-            // Empty strings should be returned as-is.
-
-//            if (inputVal.length() == 0) return "";
-//
-//            // Strings with only one character uppercased.
-//
-//            if (inputVal.length() == 1) return inputVal.toUpperCase();
-//
-//            // Otherwise uppercase first letter, lowercase the rest.
-
-            return inputVal.substring(0,1).toUpperCase()
-                    + inputVal.substring(1).toLowerCase();
-        }
 }

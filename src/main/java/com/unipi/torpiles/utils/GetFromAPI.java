@@ -14,61 +14,73 @@ import static com.unipi.torpiles.utils.Constants.*;
 
 public class GetFromAPI {
 
-    public void searchByCountry(String country) throws IOException {
+    public void searchByCountry(String country) throws IOException, InterruptedException {
+
+        ConsoleProgress progress = new ConsoleProgress();
+        progress.setDaemon(true);
+        progress.start();
 
         //API URL for the connection
         URL apiURL = new URL(URL_COUNTRY_API + country);
 
-        //Open Connection
-        URLConnection urlConnect = apiURL.openConnection();
+        try {
 
-        //Create  buffer reader
-        BufferedReader buffer = new BufferedReader(
-                new InputStreamReader(
-                        urlConnect.getInputStream()));
+            //Open Connection
+            URLConnection urlConnect = apiURL.openConnection();
 
-        String resultsFromAPI;
-        while ((resultsFromAPI = buffer.readLine()) != null){
+            //Create  buffer reader
+            BufferedReader  buffer = new BufferedReader(
+                    new InputStreamReader(
+                            urlConnect.getInputStream()));
 
-            //System.err.println("Results: " + resultsFromAPI + "\n");
+            progress.join();
 
-            //  Results from API:
-            //  {"data":
-            //      {"location":"string","confirmed":number,"deaths":number,"recovered":0,"active":0},
-            //  "dt":"date",
-            //  "ts":timestamp}
+            String resultsFromAPI;
+            while ((resultsFromAPI = buffer.readLine()) != null){
 
-            try {
-                // Create Gson instance
-                Gson gson = new Gson();
+                //System.err.println("Results: " + resultsFromAPI + "\n");
 
-                // Convert JSON file to map
-                Map<?, ?> result = gson.fromJson(resultsFromAPI, Map.class);
+                //  Results from API:
+                //  {"data":
+                //      {"location":"string","confirmed":number,"deaths":number,"recovered":0,"active":0},
+                //  "dt":"date",
+                //  "ts":timestamp}
 
-                // Create new map for data in "data"
-                Map<?,?> resultData = (Map<?, ?>) result.get("data");
+                try {
+                    // Create Gson instance
+                    Gson gson = new Gson();
 
-                //Check if country exists
-                if(resultData.get("location") != null){
+                    // Convert JSON file to map
+                    Map<?, ?> result = gson.fromJson(resultsFromAPI, Map.class);
 
-                    // Print result in console
-                    System.out.println("""
-                    Stats for:\040""" +resultData.get("location") +  """
-                    \n-Cases:\040""" +resultData.get("confirmed")  + """
-                    \n-Deaths:\040""" + resultData.get("deaths") + """
-                    \n-Last Update:\040""" + result.get("dt") + """
-                """
-                    );
-                }else {
-                    System.out.print(Color.RED + ERR_WRONG + Color.RESET);
-                    System.out.println(Color.RED + ERR_NOT_FOUND_COUNTRY + Color.RESET);
-                    searchByCountry(new UserInput().country());
+                    // Create new map for data in "data"
+                    Map<?,?> resultData = (Map<?, ?>) result.get("data");
+
+                    //Check if country exists
+                    if(resultData.get("location") != null){
+
+                        // Display result in console
+                        System.out.println(
+                            Color.CYAN + STATS + Color.RESET + resultData.get("location") +
+                            Color.CYAN + TOTAL_CASES + Color.RESET + resultData.get("confirmed") +
+                            Color.CYAN + TOTAL_DEATHS + Color.RESET + resultData.get("deaths") +
+                            Color.CYAN + LAST_UPDATE + Color.RESET+ result.get("dt")
+                        );
+
+                    }else {
+                        System.out.print(Color.RED + ERR_WRONG + Color.RESET);
+                        System.out.println(Color.RED + ERR_NOT_FOUND_COUNTRY + Color.RESET);
+                        searchByCountry(new UserInput().country());
+                    }
+                } catch (Exception ex) {
+                    System.err.println(ERR_WRONG);
+                    ex.printStackTrace();
                 }
-            } catch (Exception ex) {
-                System.err.println(ERR_WRONG);
-                ex.printStackTrace();
             }
+            buffer.close();
+
+        }catch(IOException | InterruptedException e){
+                System.out.println(Color.RED + ERR_INTERNET_CONN + Color.RESET);
         }
-        buffer.close();
     }
 }

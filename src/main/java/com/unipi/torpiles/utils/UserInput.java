@@ -12,35 +12,18 @@ public class UserInput {
 
     Scanner sc = new Scanner(System.in);
 
-    public String country(){
-        System.out.println("Enter country:" + Color.WHITE + " ex: Greece " + Color.RESET);
-        String country = sc.nextLine();
-        System.out.println(Color.YELLOW + "Search for " + country + "....\n" + Color.RESET);
+    public String country() {
+        System.out.println("Enter country:" + Color.WHITE + "\nex: Greece" + Color.RESET);
 
-        return country;
+        return sc.nextLine();
     }
-
-//    public String country(Boolean fromDataSet){
-//        while (true) {
-//
-//
-//        }
-//
-//
-//        System.out.println("Enter country:" + Color.WHITE + " ex: Greece " + Color.RESET);
-//        String country = sc.nextLine();
-//        System.out.println(Color.YELLOW + "Search for " + country + "....\n" + Color.RESET);
-//
-//        return country;
-//    }
-
 
     public List<String> months(){
         List<String> sortMonths = null;
 
         try {
                 while (true) {
-                    System.out.println(INPUT_MONTHS);
+                    System.out.println(MESS_INPUT_MONTHS);
                     String monthUserInput = sc.nextLine();
                     //System.err.println(monthUserInput);
                     Pattern pattern = Pattern.compile("\\d\\d?[-]\\d\\d?");
@@ -53,13 +36,13 @@ public class UserInput {
                                 .stream()
                                 .sorted(String::compareTo).toList();
 
-                        for (String month1 : ALL_MONTHS) {
-                            for (String month2 : ALL_MONTHS) {
+                        for (String month1 : LIST_MONTHS) {
+                            for (String month2 : LIST_MONTHS) {
                                 if (sortMonths.get(0).equals(month1) && sortMonths.get(1).equals(month2)) {
                                     System.out.println(Color.YELLOW+
                                             "Search from\040" +
                                             Month.of(Integer.parseInt(sortMonths.get(0))) + "\040to\040" +
-                                            Month.of(Integer.parseInt(sortMonths.get(1))) + "....\n" + Color.RESET);
+                                            Month.of(Integer.parseInt(sortMonths.get(1))) + Color.RESET);
                                     return sortMonths;
                                 }
                             }
@@ -74,14 +57,13 @@ public class UserInput {
     }
 
     public String choices(){
-        System.out.println(INPUT_CHOICE);
+        System.out.println(MESS_INPUT_CHOICE);
 
-        final String[] listChoices = {"1", "2","3","exit"};
         String choice ;
         while (true){
             System.out.println("Please press a number [1 or 2 or 3] or exit:");
             choice = sc.nextLine();
-            for (String c : listChoices) {
+            for (String c : LIST_CHOICES) {
                 if(c.equals(choice)) return choice ;
              }
         }
