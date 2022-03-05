@@ -25,8 +25,9 @@ public class DBManager extends BlockChain {
     public Connection connect() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(Constants.DERBY_URL);
-        } catch (SQLException e) {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(Constants.DB_URL);
+        } catch (Exception e) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
         }
         return connection;
@@ -36,40 +37,32 @@ public class DBManager extends BlockChain {
         try {
             Connection connection = connect();
 
-            DatabaseMetaData dbMetaData = connection.getMetaData();
+            /* Legend:
+             *  DT: Date Time
+             *  TS: TimeStamp in Long
+             *
+             * Creating the Statistics table if it doesn't exist. */
+            String table = "CREATE TABLE IF NOT EXISTS STATS"
+                            + "(ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                            + "LOCATION VARCHAR(255) NOT NULL,"
+                            + "TS TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+                            + "CONFIRMED INTEGER NOT NULL,"
+                            + "DEATHS INTEGER NOT NULL,"
+                            + "RECOVERED INTEGER NOT NULL,"
+                            + "ACTIVE INTEGER NOT NULL,"
+                            + "PREV_ID INTEGER,"
+                            + "HASH TEXT,"
+                            + "PREV_HASH TEXT,"
+                            + "BLOCK_TS TEXT,"
+                            + "NONCE TEXT)";
 
-            ResultSet rs = dbMetaData.getTables(null, null, Constants.TABLE_STATS,null);
-            if (rs.next()) {
-                System.out.println("Table " + rs.getString("TABLE_NAME") + " already exists, skipping creating it!");
-            }
-            else {
-                /* Legend:
-                 *  DT: Date Time
-                 *  TS: TimeStamp in Long
-                 *
-                 * Creating the Statistics table if it doesn't exist. */
-                String table = "CREATE TABLE STATS"
-                        + "(ID INTEGER NOT NULL PRIMARY KEY,"
-                        + "LOCATION VARCHAR(255) NOT NULL,"
-                        + "TS TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
-                        + "CONFIRMED INTEGER NOT NULL,"
-                        + "DEATHS INTEGER NOT NULL,"
-                        + "RECOVERED INTEGER NOT NULL,"
-                        + "ACTIVE INTEGER NOT NULL,"
-                        + "PREV_ID INTEGER,"
-                        + "HASH CLOB,"
-                        + "PREV_HASH CLOB,"
-                        + "BLOCK_TS VARCHAR(255),"
-                        + "NONCE CLOB)";
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(table);
 
-                Statement statement = connection.createStatement();
-                statement.executeUpdate(table);
+            System.out.println("Table '"+Constants.TABLE_STATS+"' has been created successfully!");
 
-                System.out.println("Table '"+Constants.TABLE_STATS+"' has been created successfully!");
-
-                // Closing the statement.
-                statement.close();
-            }
+            // Closing the statement.
+            statement.close();
 
             /*String sql = "SELECT * FROM STATS WHERE id = (SELECT MAX(id) FROM STATS ORDER BY id ASC)";
             Statement statement = connection.createStatement();
