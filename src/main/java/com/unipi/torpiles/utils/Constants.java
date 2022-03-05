@@ -20,6 +20,17 @@ public final class Constants {
 
     // Database
     public static final String TABLE_STATS = "STATS";
+    public static final String COLUMN_LOCATION = "LOCATION";
+    public static final String COLUMN_TS = "TS";
+    public static final String COLUMN_CONFIRMED = "CONFIRMED";
+    public static final String COLUMN_DEATHS = "DEATHS";
+    public static final String COLUMN_ACTIVE = "ACTIVE";
+    public static final String COLUMN_RECOVERED = "RECOVERED";
+    public static final String COLUMN_PREV_ID = "PREV_ID";
+    public static final String COLUMN_HASH = "HASH";
+    public static final String COLUMN_PREV_HASH = "PREV_HASH";
+    public static final String COLUMN_BLOCK_TS = "BLOCK_TS";
+    public static final String COLUMN_NONCE = "NONCE";
 
     //URL and PATH
     public static final String URL_COUNTRY_API = "https://covid2019-api.herokuapp.com/v2/country/";

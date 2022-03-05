@@ -121,23 +121,23 @@ public class DBManager extends BlockChain {
             // If DB is not empty, we just read the latest DB entry and add it in our arraylist, so we can continue our work
             else
             {
-                String hash = rs2.getString("hash");
-                String prevHash = rs2.getString("prevHash");
+                String hash = rs2.getString(Constants.COLUMN_HASH);
+                String prevHash = rs2.getString(Constants.COLUMN_PREV_HASH);
                 long blockTimestamp = Long.decode(rs2.getString
-                        ("blockTimestamp"));
-                int nonce = rs2.getInt("nonce");
+                        (Constants.COLUMN_BLOCK_TS));
+                int nonce = rs2.getInt(Constants.COLUMN_NONCE);
 
                 // Data
-                String location = rs2.getString("location");
-                Integer confirmed = rs2.getInt("confirmed");
-                Integer deaths = rs2.getInt("deaths");
-                Integer recovered = rs2.getInt("recovered");
-                Integer active = rs2.getInt("active");
+                String location = rs2.getString(Constants.COLUMN_LOCATION);
+                Integer confirmed = rs2.getInt(Constants.COLUMN_CONFIRMED);
+                Integer deaths = rs2.getInt(Constants.COLUMN_DEATHS);
+                Integer recovered = rs2.getInt(Constants.COLUMN_RECOVERED);
+                Integer active = rs2.getInt(Constants.COLUMN_ACTIVE);
 
                 String data = new Statistic(location, confirmed, deaths,
                         recovered, active).jsonMaker();
 
-                Block currentBlock = new Block("",prevHash);
+                Block currentBlock = new Block("", prevHash);
                 currentBlock.setTimeStamp(blockTimestamp);
                 currentBlock.setNonce(nonce);
                 currentBlock.setData(data);
