@@ -40,30 +40,30 @@ public class DBManager extends BlockChain {
             Connection connection = connect();
 
             /* Legend:
-             *  DT: Date Time
+             *  Location: 56 characters because that's what the longest country name has.
              *  TS: TimeStamp in Long
+             *  Month: Month number, so 2 characters.
              *
              * Creating the Statistics table if it doesn't exist. */
-            String table = "CREATE TABLE IF NOT EXISTS STATS"
+            String table = "CREATE TABLE IF NOT EXISTS '"+Constants.TABLE_STATS+"'"
                             + "(ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-                            + "LOCATION VARCHAR(255) NOT NULL,"
+                            + "LOCATION VARCHAR(56) NOT NULL,"
                             + "TS TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
                             + "CONFIRMED BIGINT NOT NULL,"
                             + "DEATHS BIGINT NOT NULL,"
-                            + "RECOVERED BIGINT NOT NULL,"
-                            + "ACTIVE BIGINT NOT NULL,"
+                            + "RECOVERED BIGINT,"
+                            + "ACTIVE BIGINT,"
                             + "PREV_ID INTEGER,"
                             + "HASH TEXT,"
                             + "PREV_HASH TEXT,"
                             + "BLOCK_TS TEXT,"
-                            + "NONCE TEXT)";
+                            + "NONCE TEXT,"
+                            + "MONTH INTEGER)";
 
             Statement statement = connection.createStatement();
             statement.executeUpdate(table);
             // Closing the statement.
             statement.close();
-
-            System.out.println("Table '"+Constants.TABLE_STATS+"' has been created successfully!");
 
             String sql = "SELECT * FROM STATS WHERE id = (SELECT MAX(id) FROM STATS ORDER BY id ASC)";
             statement = connection.createStatement();
@@ -155,7 +155,7 @@ public class DBManager extends BlockChain {
         }
     }
 
-    public void addNewEntry(String location, int confirmed, int deaths, int recovered, int active) {
+    public void addNewEntry(String location, int confirmed, int deaths, int recovered, int active, int month) {
         try {
             Statistic statistic = new Statistic (
                     location,
@@ -177,7 +177,7 @@ public class DBManager extends BlockChain {
                 int prevId = rs.getInt(1);
 
                 String sqlInsert = "INSERT INTO '"+Constants.TABLE_STATS+"' (" +
-                        "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE) " +
+                        "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE, MONTH) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 try {
@@ -194,6 +194,7 @@ public class DBManager extends BlockChain {
                     preparedStatement.setString(9, BlockChain.blocklist.get(BlockChain.blocklist.size()-1).previousHash);
                     preparedStatement.setTimestamp(10, new Timestamp(BlockChain.blocklist.get(BlockChain.blocklist.size()-1).getTimeStamp()));
                     preparedStatement.setInt(11, BlockChain.blocklist.get(BlockChain.blocklist.size()-1).getNonce());
+                    preparedStatement.setInt(12, month);
 
                     int count = preparedStatement.executeUpdate();
                     if (count > 0) {
@@ -233,7 +234,7 @@ public class DBManager extends BlockChain {
 
                     // Closing the statement.
                     preparedStatement.close();
-                    System.out.println("Insert to database completed!");
+                    System.out.println("Insertion to database completed!");
                 } catch (SQLException e) {
                     Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
                 }
@@ -243,7 +244,6 @@ public class DBManager extends BlockChain {
             rs.close();
             statement.close();
             connection.close();
-            System.out.println("Insertion to database completed!");
         } catch (SQLException e) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
         }

@@ -4,7 +4,7 @@ import com.unipi.torpiles.utils.console.Color;
 
 public final class Constants {
 
-    //Display
+    // Display
     public static final String TITLE = "\nCovid-19 Stats\n";
     public static final String LINE = "-------------------------------------------------------------------------\n";
     public static final String DOTS = "....\n";
@@ -13,7 +13,7 @@ public final class Constants {
     public static final String TOTAL_DEATHS = "\n-Total Deaths:\040";
     public static final String LAST_UPDATE = "\n-Last Update:\040";
 
-    //For Search
+    // For Search
     public static final String SEARCH_BY_COUNTRY = "Search results by country.\n";
     public static final String SEARCH_BY_MONTHS_AND_COUNTRY = "Search for monthly results for a specific year by country.\n";
     public static final String VIEW_STATISTICS = "View statistics.\n";
@@ -32,7 +32,7 @@ public final class Constants {
     public static final String COLUMN_BLOCK_TS = "BLOCK_TS";
     public static final String COLUMN_NONCE = "NONCE";
 
-    //URL and PATH
+    // URL and PATH
     public static final String URL_COUNTRY_API = "https://covid2019-api.herokuapp.com/v2/country/";
     public static final String PATH_COVID_DATA = "src/main/resources/dataset/covidData.json";
     public static final String DB_URL = "jdbc:sqlite:covid19_stats.db";
@@ -61,7 +61,7 @@ public final class Constants {
                     """ + LINE + """
                 """;
 
-    //Static List
+    // Static List
     final static String[] LIST_MONTHS = {"1","2","3","4","5","6","7","8","9","10","11","12"};
     final static String[] LIST_CHOICES = {"1", "2","3","exit"};
 }

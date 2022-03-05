@@ -11,7 +11,7 @@ public class Block {
     private String data;
     private long timeStamp;
     private int nonce;
-    private boolean miningFinish; // Need this to find out whether a thread has finished it's task.
+    private boolean miningFinish; // Need this to find out whether a thread has finished its task.
 
     public Block(String data,String previousHash) {
         this.data = data;
