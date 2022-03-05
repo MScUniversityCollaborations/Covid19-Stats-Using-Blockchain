@@ -81,6 +81,7 @@ public class GetFromAPI {
 
         }catch(IOException | InterruptedException e){
                 System.out.println(Color.RED + ERR_INTERNET_CONN + Color.RESET);
+                e.printStackTrace();
         }
     }
 }

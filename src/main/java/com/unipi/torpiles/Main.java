@@ -12,9 +12,9 @@ import static com.unipi.torpiles.utils.Constants.*;
 
 public class Main {
 
-    static DBManager dbManagerInstance = DBManager.getInstance();
+   static DBManager dbManagerInstance = DBManager.getInstance();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         System.out.print(Color.BLUE + LINE + Color.RESET);
         System.out.println(Color.CYAN + TITLE + Color.RESET);

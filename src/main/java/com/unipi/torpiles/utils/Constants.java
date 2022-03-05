@@ -27,6 +27,7 @@ public final class Constants {
     // Err Messages
     public static final String ERR_WRONG = "Something went wrong.\n";
     public static final String ERR_NOT_FOUND_COUNTRY = "Sorry, no country data found. Try again\n";
+    public static final String ERR_INTERNET_CONN = "Oh no! No Internet Connection\n";
     public static final String ERR_INVALID_IMPORT = "Invalid import. Try again.\n";
 
     // User Input Messages
