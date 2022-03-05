@@ -170,7 +170,7 @@ public class DBManager extends BlockChain {
             Connection connection = connect();
             Statement statement = connection.createStatement();
 
-            String sql2 = "SELECT MAX(id) FROM Stats WHERE title = '"+statistic.location+"' ORDER BY id ASC";
+            String sql2 = "SELECT MAX(id) FROM '"+Constants.TABLE_STATS+"' WHERE LOCATION = '"+statistic.location+"' ORDER BY id ASC";
 
             ResultSet rs = statement.executeQuery(sql2);
             if (rs.next()) {
