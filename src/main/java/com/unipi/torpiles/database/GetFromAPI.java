@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 import java.util.Map;
 
 import static com.unipi.torpiles.utils.Constants.*;
@@ -54,7 +55,7 @@ public class GetFromAPI {
                     Gson gson = new Gson();
 
                     // Convert JSON file to map
-                    Map<?, ?> result = gson.fromJson(resultsFromAPI, Map.class);
+                    Map<?,?> result = gson.fromJson(resultsFromAPI, Map.class);
 
                     // Create new map for data in "data"
                     Map<?,?> resultData = (Map<?, ?>) result.get("data");
@@ -62,11 +63,15 @@ public class GetFromAPI {
                     //Check if country exists
                     if(resultData.get("location") != null){
 
+                        String location = resultData.get("location").toString();
+                        int confirmed = Integer.parseInt(resultData.get("confirmed").toString().replace(".0",""));
+                        int deaths = Integer.parseInt(resultData.get("deaths").toString().replace(".0",""));
+
                         // Display result in console
                         System.out.println(
-                            Color.CYAN + STATS + Color.RESET + resultData.get("location") +
-                            Color.CYAN + TOTAL_CASES + Color.RESET + resultData.get("confirmed") +
-                            Color.CYAN + TOTAL_DEATHS + Color.RESET + resultData.get("deaths") +
+                            Color.CYAN + STATS + Color.RESET + location +
+                            Color.CYAN + TOTAL_CASES + Color.RESET + confirmed +
+                            Color.CYAN + TOTAL_DEATHS + Color.RESET + deaths +
                             Color.CYAN + LAST_UPDATE + Color.RESET+ result.get("dt")
                         );
 
