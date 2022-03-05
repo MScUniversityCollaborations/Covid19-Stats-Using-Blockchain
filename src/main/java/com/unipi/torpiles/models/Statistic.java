@@ -11,9 +11,9 @@ public class Statistic {
     public Integer deaths;
     public Integer recovered;
     public Integer active;
-    public Long ts;
+    public long ts;
 
-    public Statistic(String location, Integer confirmed, Integer deaths, Integer recovered, Integer active, Long ts) {
+    public Statistic(String location, Integer confirmed, Integer deaths, Integer recovered, Integer active, long ts) {
         this.location = location;
         this.confirmed = confirmed;
         this.deaths = deaths;
@@ -55,7 +55,7 @@ public class Statistic {
         return active;
     }
 
-    public Long getTs() {
+    public long getTs() {
         return ts;
     }
 }
