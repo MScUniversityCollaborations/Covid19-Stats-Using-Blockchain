@@ -1,4 +1,4 @@
-package com.unipi.torpiles.utils;
+package com.unipi.torpiles.utils.blockchain;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

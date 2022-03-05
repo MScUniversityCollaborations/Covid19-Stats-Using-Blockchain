@@ -1,4 +1,4 @@
-package com.unipi.torpiles.utils;
+package com.unipi.torpiles.utils.blockchain;
 
 import java.util.ArrayList;
 import java.util.Date;

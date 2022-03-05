@@ -1,7 +1,9 @@
-package com.unipi.torpiles.utils;
+package com.unipi.torpiles.database;
 
 import com.google.gson.Gson;
 import com.unipi.torpiles.models.Records;
+import com.unipi.torpiles.utils.console.Color;
+import com.unipi.torpiles.utils.console.ConsoleProgress;
 
 
 import java.io.BufferedReader;

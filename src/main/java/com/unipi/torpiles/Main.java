@@ -1,9 +1,9 @@
 package com.unipi.torpiles;
 
 import com.unipi.torpiles.database.DBManager;
-import com.unipi.torpiles.utils.Color;
-import com.unipi.torpiles.utils.GetFromAPI;
-import com.unipi.torpiles.utils.GetFromDataset;
+import com.unipi.torpiles.utils.console.Color;
+import com.unipi.torpiles.database.GetFromAPI;
+import com.unipi.torpiles.database.GetFromDataset;
 import com.unipi.torpiles.utils.UserInput;
 
 import java.io.IOException;

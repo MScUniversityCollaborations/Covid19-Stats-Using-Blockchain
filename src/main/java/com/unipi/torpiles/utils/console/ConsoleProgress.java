@@ -1,6 +1,6 @@
-package com.unipi.torpiles.utils;
+package com.unipi.torpiles.utils.console;
 
-class ConsoleProgress extends Thread {
+public class ConsoleProgress extends Thread {
 
         @Override
         public void run() {

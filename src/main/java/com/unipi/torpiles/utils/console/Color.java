@@ -1,4 +1,4 @@
-package com.unipi.torpiles.utils;
+package com.unipi.torpiles.utils.console;
 
 public enum Color {
 
