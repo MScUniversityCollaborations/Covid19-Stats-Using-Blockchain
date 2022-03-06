@@ -11,6 +11,7 @@ public class Statistic {
     public Integer deaths;
     public Integer recovered;
     public Integer active;
+    public Integer month;
     public long ts;
 
     public Statistic(String location, Integer confirmed, Integer deaths, Integer recovered, Integer active, long ts) {
@@ -28,6 +29,13 @@ public class Statistic {
         this.deaths = deaths;
         this.recovered = recovered;
         this.active = active;
+    }
+
+    public Statistic(String location, Integer confirmed, Integer deaths, Integer month) {
+        this.location = location;
+        this.confirmed = confirmed;
+        this.deaths = deaths;
+        this.month = month;
     }
 
     public String jsonMaker()
