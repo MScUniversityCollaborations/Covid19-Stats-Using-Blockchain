@@ -200,3 +200,4 @@ gen
 /covid19_stats/seg0/README_DO_NOT_TOUCH_FILES.txt
 /covid19_stats/README_DO_NOT_TOUCH_FILES.txt
 /covid19_stats/service.properties
+/covid19_stats.db
