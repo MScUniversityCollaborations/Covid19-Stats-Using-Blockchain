@@ -37,7 +37,7 @@ public class GetFromDatabase {
                             System.err.println(tempCountry2);
                         }
                     });
-
+            countries.forEach(System.out::println);
 //            String country;
 //            String country2 = null;
 //            System.out.println("You have searched the following countries:");
