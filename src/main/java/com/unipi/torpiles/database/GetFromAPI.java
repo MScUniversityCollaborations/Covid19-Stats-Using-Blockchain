@@ -21,6 +21,7 @@ public class GetFromAPI {
     public void searchByCountry(String country) throws IOException, InterruptedException {
 
         ConsoleProgress progress = new ConsoleProgress();
+        progress.setTimeSleep(70);
         progress.setDaemon(true);
         progress.start();
 
@@ -66,14 +67,26 @@ public class GetFromAPI {
                         String location = resultData.get("location").toString();
                         int confirmed = Integer.parseInt(resultData.get("confirmed").toString().replace(".0",""));
                         int deaths = Integer.parseInt(resultData.get("deaths").toString().replace(".0",""));
+                        int recovered = Integer.parseInt(resultData.get("recovered").toString().replace(".0",""));
+                        int active = Integer.parseInt(resultData.get("active").toString().replace(".0",""));
 
                         // Display result in console
                         System.out.println(
                             Color.CYAN + STATS + Color.RESET + location +
                             Color.CYAN + TOTAL_CASES + Color.RESET + confirmed +
                             Color.CYAN + TOTAL_DEATHS + Color.RESET + deaths +
+                            Color.CYAN + TOTAL_RECOVERED + Color.RESET + recovered +
+                            Color.CYAN + TOTAL_ACTIVES + Color.RESET + active +
                             Color.CYAN + LAST_UPDATE + Color.RESET+ result.get("dt")
                         );
+
+                        DBManager.getInstance().addNewEntry(
+                                location,
+                                confirmed,
+                                deaths,
+                                recovered,
+                                active,
+                                0);
 
                     }else {
                         System.out.print(Color.RED + ERR_WRONG + Color.RESET);

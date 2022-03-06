@@ -178,7 +178,7 @@ public class DBManager extends BlockChain {
 
                 String sqlInsert = "INSERT INTO '"+Constants.TABLE_STATS+"' (" +
                         "LOCATION, TS, CONFIRMED, DEATHS, RECOVERED, ACTIVE, PREV_ID, HASH, PREV_HASH, BLOCK_TS, NONCE, MONTH) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 try {
                     PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);

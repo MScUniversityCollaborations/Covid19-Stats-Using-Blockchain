@@ -11,6 +11,8 @@ public final class Constants {
     public static final String STATS = "\nStats for:\040";
     public static final String TOTAL_CASES = "\n-Total Cases:\040";
     public static final String TOTAL_DEATHS = "\n-Total Deaths:\040";
+    public static final String TOTAL_RECOVERED = "\n-Total Recovered:\040";
+    public static final String TOTAL_ACTIVES = "\n-Total Active:\040";
     public static final String LAST_UPDATE = "\n-Last Update:\040";
 
     // For Search
