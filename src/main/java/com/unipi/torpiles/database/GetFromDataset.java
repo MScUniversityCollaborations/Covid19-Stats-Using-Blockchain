@@ -1,7 +1,7 @@
 package com.unipi.torpiles.database;
 
 import com.google.gson.Gson;
-import com.unipi.torpiles.models.Records;
+import com.unipi.torpiles.models.Record;
 import com.unipi.torpiles.utils.console.Color;
 import com.unipi.torpiles.utils.console.ConsoleProgress;
 
@@ -41,7 +41,7 @@ public class GetFromDataset {
                     new FileReader(PATH_COVID_DATA));
 
             // Create an array of JSON File
-            Records[] recordArray = gson.fromJson(buffer, Records[].class);
+            Record[] recordArray = gson.fromJson(buffer, Record[].class);
 
             progress.join();
 
@@ -60,7 +60,7 @@ public class GetFromDataset {
 
             // Search if country from user input exist
             boolean existCountry = Arrays.stream(recordArray)
-                    .anyMatch(records -> records.getCountry().equals(COUNTRY));
+                    .anyMatch(Record -> Record.getCountry().equals(COUNTRY));
 
             if(!existCountry){
                 System.out.println(ERR_NOT_FOUND_COUNTRY);
@@ -82,8 +82,6 @@ public class GetFromDataset {
 //                    System.out.println(month);
 //                    System.out.println("monthlyDeaths " +monthlyDeaths );
 //                    System.out.println("monthlyCases " +monthlyCases );
-//
-//
 //                    System.out.println("total " +totalDeaths );
 //                    System.out.println("total " +totalCases );
 

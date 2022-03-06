@@ -1,6 +1,6 @@
 package com.unipi.torpiles.models;
 
-public class Records {
+public class Record {
 
     private final int cases;
     private final String country;
@@ -10,7 +10,7 @@ public class Records {
     private final String month;
     private final String year;
 
-    public Records(int cases, String country, String dateRep, String day, int deaths, String month, String year) {
+    public Record(int cases, String country, String dateRep, String day, int deaths, String month, String year) {
         this.cases = cases;
         this.country = country;
         this.dateRep = dateRep;
@@ -19,6 +19,7 @@ public class Records {
         this.month = month;
         this.year = year;
     }
+
 
     public int getCases() {
         return cases;

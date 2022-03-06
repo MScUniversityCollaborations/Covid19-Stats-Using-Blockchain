@@ -24,12 +24,12 @@ public class Main {
 
         dbManagerInstance.initializeTable();
 
-        resultStats(new UserInput().choices());
+        //resultStats(new UserInput().choices());
 
         // For Test
         // new UserInput().months();
         // new GetFromDataset().searchByCountryAndMonths();
-        // new GetFromDatabase().resultStats();
+        new GetFromDatabase().resultStats();
     }
 
     private static void resultStats(String choice) throws IOException, InterruptedException {
@@ -41,7 +41,7 @@ public class Main {
                         new UserInput().months(),
                         new UserInput().country());
 
-            case "3" -> System.out.println("test 3");
+            case "3" -> new GetFromDatabase().resultStats();
 
             case "exit" -> {
                 System.out.println(Color.RED + "Exit...." + Color.RESET);

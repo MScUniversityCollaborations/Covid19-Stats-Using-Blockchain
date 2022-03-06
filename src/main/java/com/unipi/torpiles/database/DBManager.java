@@ -1,18 +1,20 @@
 package com.unipi.torpiles.database;
 
+import com.unipi.torpiles.models.Record;
+import com.unipi.torpiles.models.RecordForStats;
 import com.unipi.torpiles.models.Statistic;
 import com.unipi.torpiles.utils.Constants;
 import com.unipi.torpiles.utils.blockchain.Block;
 import com.unipi.torpiles.utils.blockchain.BlockChain;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.unipi.torpiles.utils.Constants.DB_URL;
+import static com.unipi.torpiles.utils.Constants.LINE;
 
 public class DBManager extends BlockChain {
 
@@ -111,7 +113,7 @@ public class DBManager extends BlockChain {
 
                     int count = preparedStatement.executeUpdate();
                     if (count > 0) {
-                        System.out.println(count+" record updated");
+                        System.out.println(count+" Record updated");
                     }
 
                     // Closing the statement.
@@ -201,7 +203,7 @@ public class DBManager extends BlockChain {
 
                     int count = preparedStatement.executeUpdate();
                     if (count > 0) {
-                        System.out.println(count+" record updated");
+                        System.out.println(count+" Record updated");
                     }
 
                     // Closing the statement.
@@ -232,7 +234,7 @@ public class DBManager extends BlockChain {
 
                     int count = preparedStatement.executeUpdate();
                     if (count > 0) {
-                        System.out.println(count+" record updated");
+                        System.out.println(count+" Record updated");
                     }
 
                     // Closing the statement.
@@ -252,12 +254,11 @@ public class DBManager extends BlockChain {
         }
     }
 
-    public ArrayList<String> dataForStats() {
+    public List<RecordForStats> dataForStats() {
 
         String sql = "SELECT LOCATION, CONFIRMED, DEATHS, MONTH FROM STATS";
 
-        ArrayList<String> listData = new ArrayList<>();
-        String data;
+        List<RecordForStats> listData = new ArrayList<>();
 
         try {
             Connection connection = DriverManager.getConnection(DB_URL);
@@ -269,17 +270,16 @@ public class DBManager extends BlockChain {
                 if(!result.isFirst()){
 
                     String location = result.getString(1);
-                    Integer confirmed = result.getInt(2);
-                    Integer deaths = result.getInt(3);
-                    Integer month = result.getInt(4);
-
-                    data = new Statistic(
+                    int confirmed = result.getInt(2);
+                    int deaths = result.getInt(3);
+                    int month = result.getInt(4);
+                    //System.out.println(location);
+                    listData.add((new RecordForStats(
                             location,
                             confirmed,
                             deaths,
-                            month).jsonMaker();
+                            month)));
 
-                    listData.add(data);
                 }
             }
         } catch (SQLException ex) {
