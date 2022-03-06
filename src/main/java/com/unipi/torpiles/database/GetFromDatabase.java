@@ -31,7 +31,7 @@ public class GetFromDatabase {
             Arrays.stream(dataArray)
                     .forEach(asd -> {
                         tempCountry = asd.getCountry();
-                        if (tempCountry.equals(tempCountry2)) {
+                        if (!tempCountry.equals(tempCountry2)) {
                             tempCountry2 = tempCountry;
                             countries.add(tempCountry2);
                             System.err.println(tempCountry2);
