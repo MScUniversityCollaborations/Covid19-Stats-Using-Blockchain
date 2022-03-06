@@ -28,6 +28,7 @@ public final class Constants {
     public static final String COLUMN_DEATHS = "DEATHS";
     public static final String COLUMN_ACTIVE = "ACTIVE";
     public static final String COLUMN_RECOVERED = "RECOVERED";
+    public static final String COLUMN_MONTH = "MONTH";
     public static final String COLUMN_PREV_ID = "PREV_ID";
     public static final String COLUMN_HASH = "HASH";
     public static final String COLUMN_PREV_HASH = "PREV_HASH";
@@ -44,6 +45,12 @@ public final class Constants {
     public static final String ERR_NOT_FOUND_COUNTRY = "Sorry, no country data found. Try again\n";
     public static final String ERR_INTERNET_CONN = "Oh no! No Internet Connection\n";
     public static final String ERR_INVALID_IMPORT = "Invalid import. Try again.\n";
+    public static final String ERR_NOT_STATS_FOUND = """
+                                                       Sorry, we cannot provide any results.
+                                                       Please search for a country [choice 1]
+                                                       or monthly stats [choice 2].
+
+                                                       """;
 
     // User Input Messages
     public static final String MESS_INPUT_MONTHS = """

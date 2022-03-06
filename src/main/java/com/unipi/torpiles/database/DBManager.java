@@ -6,10 +6,13 @@ import com.unipi.torpiles.utils.blockchain.Block;
 import com.unipi.torpiles.utils.blockchain.BlockChain;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.unipi.torpiles.utils.Constants.DB_URL;
 
 public class DBManager extends BlockChain {
 
@@ -248,4 +251,42 @@ public class DBManager extends BlockChain {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+
+    public ArrayList<String> dataForStats() {
+
+        String sql = "SELECT LOCATION, CONFIRMED, DEATHS, MONTH FROM STATS";
+
+        ArrayList<String> listData = new ArrayList<>();
+        String data;
+
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL);
+            Statement stmt = connection.createStatement();
+            ResultSet result = stmt.executeQuery(sql);
+
+            while (result.next())
+            {
+                if(!result.isFirst()){
+
+                    String location = result.getString(1);
+                    Integer confirmed = result.getInt(2);
+                    Integer deaths = result.getInt(3);
+                    Integer month = result.getInt(4);
+
+                    data = new Statistic(
+                            location,
+                            confirmed,
+                            deaths,
+                            month).jsonMaker();
+
+                    listData.add(data);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return listData;
+    }
+
 }

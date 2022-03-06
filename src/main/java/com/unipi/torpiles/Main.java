@@ -18,17 +18,18 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
 
-        System.out.print(Color.BLUE + LINE + Color.RESET);
-        System.out.println(Color.CYAN + TITLE + Color.RESET);
+        System.out.println(
+                Color.BLUE + LINE + Color.RESET +
+                Color.CYAN + TITLE + Color.RESET);
 
         dbManagerInstance.initializeTable();
 
-        new GetFromDatabase().connection();
-        //resultStats(new UserInput().choices());
+        resultStats(new UserInput().choices());
 
         // For Test
         // new UserInput().months();
         // new GetFromDataset().searchByCountryAndMonths();
+        // new GetFromDatabase().resultStats();
     }
 
     private static void resultStats(String choice) throws IOException, InterruptedException {

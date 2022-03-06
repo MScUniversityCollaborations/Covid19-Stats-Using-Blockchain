@@ -21,7 +21,7 @@ public class GetFromAPI {
     public void searchByCountry(String country) throws IOException, InterruptedException {
 
         ConsoleProgress progress = new ConsoleProgress();
-        progress.setTimeSleep(70);
+        progress.setTimeSleep(10);
         progress.setDaemon(true);
         progress.start();
 
@@ -65,10 +65,10 @@ public class GetFromAPI {
                     if(resultData.get("location") != null){
 
                         String location = resultData.get("location").toString();
-                        int confirmed = Integer.parseInt(resultData.get("confirmed").toString().replace(".0",""));
-                        int deaths = Integer.parseInt(resultData.get("deaths").toString().replace(".0",""));
-                        int recovered = Integer.parseInt(resultData.get("recovered").toString().replace(".0",""));
-                        int active = Integer.parseInt(resultData.get("active").toString().replace(".0",""));
+                        long confirmed = Double.valueOf(String.valueOf(resultData.get("confirmed"))).longValue();
+                        long deaths = Double.valueOf(String.valueOf(resultData.get("deaths"))).longValue();
+                        long recovered = Double.valueOf(String.valueOf(resultData.get("recovered"))).longValue();
+                        long active = Double.valueOf(String.valueOf(resultData.get("active"))).longValue();
 
                         // Display result in console
                         System.out.println(
@@ -82,10 +82,10 @@ public class GetFromAPI {
 
                         DBManager.getInstance().addNewEntry(
                                 location,
-                                confirmed,
-                                deaths,
-                                recovered,
-                                active,
+                                (int) confirmed,
+                                (int) deaths,
+                                (int) recovered,
+                                (int) active,
                                 0);
 
                     }else {

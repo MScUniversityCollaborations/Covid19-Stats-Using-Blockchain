@@ -1,51 +1,38 @@
 package com.unipi.torpiles.database;
 
 import com.unipi.torpiles.models.Statistic;
+import com.unipi.torpiles.utils.Constants;
+import com.unipi.torpiles.utils.console.Color;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.unipi.torpiles.utils.Constants.DB_URL;
+import static com.unipi.torpiles.utils.Constants.ERR_NOT_STATS_FOUND;
 
 public class GetFromDatabase {
 
-    public void connection() throws SQLException {
 
-        String sql = "SELECT LOCATION, CONFIRMED, DEATHS, RECOVERED, ACTIVE, MONTH FROM STATS";
+    public void resultStats(){
 
-        Statistic data;
-        ArrayList<Statistic> listData = new ArrayList<>();
-        List<Statistic> asd;
-        try {
-            Connection connection = DriverManager.getConnection(DB_URL);
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next())
-            {
-                if (!rs.getString(1).isEmpty()) {
+        ArrayList<String> data = DBManager.getInstance().dataForStats();
 
-                     data = new Statistic(
-                            rs.getString(1),
-                            rs.getInt(2),
-                            rs.getInt(3),
-                            rs.getInt(6));
+        if(!data.isEmpty()){
+            data.forEach(System.out::println);
 
-                    listData.add(data);
+            List<String> country = data.stream().filter(s -> s.equals("country")).toList();;
+            country.forEach(System.out::println);
 
-                    //System.out.println(rs.getString(1));
-                    //System.out.println(rs.getInt(2));
-                    //System.out.println(rs.getInt(3));
-                    //System.out.println(rs.getInt(4));
-                    //System.out.println(rs.getInt(5));
-                    //System.out.println(rs.getInt(6));
-                }
-            }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-
-        listData.stream().distinct().forEach(System.out::println);
-
+        }else {
+            System.out.println(Color.RED + ERR_NOT_STATS_FOUND + Color.RESET);
         }
+
+
+
+
+
+    }
+
 }
