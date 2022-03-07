@@ -58,8 +58,8 @@ public class Block {
                     this.hash = thash;
                     long endTime = System.nanoTime();
                     long convert = TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
-                    System.out.println("Latest Block Mined Successfully with hash : " + hash);
-                    System.out.println("Current block's mining took: " + convert + " seconds");
+                    //System.out.println("Latest Block Mined Successfully with hash : " + hash);
+                    //3System.out.println("Current block's mining took: " + convert + " seconds");
                     for (Thread thread : threads)
                     {
                         thread.interrupt();
