@@ -4,19 +4,17 @@ import com.unipi.torpiles.models.Country;
 import com.unipi.torpiles.models.RecordForStats;
 import com.unipi.torpiles.utils.console.Color;
 
-import java.util.*;
-import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.unipi.torpiles.utils.Constants.*;
-import static java.util.Collections.reverse;
 
 public class GetFromDatabase {
     long totalDeaths = 0 ;
     long totalCases = 0;
-    long totalMonthlyCases = 0 ;
-    long totalMonthlyDeaths = 0;
 
     public void resultStats() {
 
@@ -86,6 +84,7 @@ public class GetFromDatabase {
 
             System.out.print(LINE);
 
+            // Calculate most and fewest deaths/cases
             System.out.println(Color.YELLOW + "The countries with the most and the fewest deaths-cases:\n"  + Color.RESET );
             List<Country> sortedListDeaths = countries.stream()
                     .sorted(Comparator.comparingInt(o -> o.deaths)).toList();
@@ -93,38 +92,31 @@ public class GetFromDatabase {
             List<Country> sortedListCases = countries.stream()
                     .sorted(Comparator.comparingInt(o -> o.cases)).toList();
             //System.out.println(sortedList);
-            String minDeaths = String.valueOf(sortedListDeaths.stream().findFirst().stream().toList());
+            String minDeaths = sortedListDeaths.stream().findFirst().get().toString();
             String maxDeaths = String.valueOf(sortedListDeaths.get(sortedListDeaths.size() - 1));
-            String minCases = String.valueOf(sortedListCases.stream().findFirst().stream().toList());
+            String minCases = String.valueOf(sortedListCases.stream().findFirst().get().toString());
             String maxCases = String.valueOf(sortedListCases.get(sortedListCases.size() - 1));
-
-            minDeaths = minDeaths.replace("]","");
-            minDeaths = minDeaths.replace("[","");
-            minCases = minCases.replace("]","");
-            minCases = minCases.replace("[","");
 
             System.out.println(Color.CYAN + "More deaths : "  + Color.RESET + maxDeaths);
             System.out.println(Color.CYAN + "More cases : "  + Color.RESET + maxCases + "\n");
             System.out.println(Color.CYAN + "Fewer deaths : "  + Color.RESET + minDeaths );
             System.out.println(Color.CYAN + "Fewer cases : "  + Color.RESET + minCases);
 
-
             System.out.print(LINE);
 
+            // Calculate Average
             Double averageCase = countries.stream().collect(Collectors.averagingInt(s->s.cases));
             Double averageDeaths = countries.stream().collect(Collectors.averagingInt(s->s.deaths));
+
             System.out.println(Color.YELLOW + "Deaths and Cases Average:\n"  + Color.RESET );
             System.out.println(Color.CYAN + "Average Deaths: "  + Color.RESET + averageDeaths);
             System.out.println(Color.CYAN + "Average Cases: "  + Color.RESET + averageCase);
 
             System.out.println(LINE);
 
-
         }else {
             System.out.println(Color.RED + ERR_NOT_STATS_FOUND + Color.RESET);
         }
-
-
 
     }
 
