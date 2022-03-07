@@ -14,6 +14,10 @@ public final class Constants {
     public static final String TOTAL_RECOVERED = "\n-Total Recovered:\040";
     public static final String TOTAL_ACTIVES = "\n-Total Active:\040";
     public static final String LAST_UPDATE = "\n-Last Update:\040";
+    public static final String CASES = "\040|Cases:\040";
+    public static final String DEATHS = "\040|Deaths:\040";
+    public static final String COUNTRY = "Country:\040";
+
 
     // For Search
     public static final String SEARCH_BY_COUNTRY = "Search results by country.\n";

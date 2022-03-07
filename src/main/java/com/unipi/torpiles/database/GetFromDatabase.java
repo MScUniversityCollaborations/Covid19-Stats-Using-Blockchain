@@ -1,118 +1,122 @@
 package com.unipi.torpiles.database;
 
+import com.unipi.torpiles.models.Country;
 import com.unipi.torpiles.models.RecordForStats;
 import com.unipi.torpiles.utils.console.Color;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.unipi.torpiles.utils.Constants.*;
+import static java.util.Collections.reverse;
 
 public class GetFromDatabase {
-    int totalDeaths = 0 ;
-    int totalCases = 0;
-    int totalMonths = 0 ;
+    long totalDeaths = 0 ;
+    long totalCases = 0;
+    long totalMonthlyCases = 0 ;
+    long totalMonthlyDeaths = 0;
 
-    String tempCountry;
-    String tempCountry2 = null;
-    int tempMonth;
-    int tempMonth2 = 0;
-    // final List<String> countries = new ArrayList<>();
-    final List<String> countries2 = new ArrayList<>();
     public void resultStats() {
 
         System.out.println(Color.CYAN + "COVID STATS FROM DATABASE" + Color.RESET);
-        List<RecordForStats> data = DBManager.getInstance().dataForStats();
         RecordForStats[] dataArray = DBManager.getInstance().dataForStats().toArray(new RecordForStats[0]);
         if (!DBManager.getInstance().dataForStats().isEmpty()) {
 
             ArrayList<String> searchedCountries = new ArrayList<>();
+            ArrayList<String> checkCountries = new ArrayList<>();
+            List<Country> countries = new ArrayList<>();
 
             System.out.print(LINE);
             // All Countries
             Arrays.stream(dataArray)
-                    .forEach(asd -> {
-//                        tempCountry = asd.getCountry();
-//                        if (!tempCountry.equalsIgnoreCase(tempCountry2)) {
-//                            tempCountry2 = tempCountry;
-//                            countries.add(tempCountry2);
-//                            //System.out.println(tempCountry2);
-//                        }
-
-                        String country = asd.getCountry();
-
+                    .sorted((s1,s2)-> 0)
+                    .forEach(c -> {
+                        String country = c.getCountry();
                         if (searchedCountries.isEmpty()) {
                             searchedCountries.add(country);
+                            countries.add(new Country(country,c.getDeaths(),c.getCases()));
                         }
                         else {
                             if (!containsCaseInsensitive(country, searchedCountries)) {
                                 searchedCountries.add(country);
+                                countries.add(new Country(country,c.getDeaths(),c.getCases()));
                             }
                         }
-                    });
+                    }
+                    );
 
             System.out.println(Color.YELLOW + "You have searched the following countries:\n" + Color.RESET);
             searchedCountries.forEach(System.out::println);
 
-
-            System.out.println("You have searched the following countries:");
-            for (RecordForStats c2 : data) {
-
-                for (String c: countries2) {
-                    if(c.equalsIgnoreCase(c2.getCountry())){
-                        countries2.add(c2.getCountry());
-                    }
-
-                }
-            }
-            countries2.forEach(System.out::println);
-
-            //countries.forEach(System.out::println);
-            //countries2.forEach(System.out::println);
             System.out.print(LINE);
 
             // Calculate total deaths and cases
-//            for (String country: countries) {
-//                Arrays.stream(dataArray)
-//                        .filter(country2 -> country2.getCountry().equals(country))
-//                        .forEach(data1 -> {
-//                            if(data1.getMonth() == 0){
-//                                        tempCountry = country;
-//                                        if(!tempCountry.equals(tempCountry2)){
-//                                            tempCountry2 = tempCountry;
-//
-//                                            totalDeaths += data1.getDeaths();
-//                                            totalCases += data1.getCases();
-//
-//
-//                                        }
-//                            }
-//                        }
-//                );
-//            }
+            System.out.println(Color.YELLOW + "Deaths and Cases for each country:\n"  + Color.RESET );
+            Arrays.stream(dataArray).forEach(c -> {
+                if(c.getMonth() == 0){
+                    String finalCountry = c.getCountry();
+                    if (checkCountries.isEmpty()) {
+                        totalDeaths += c.getDeaths();
+                        totalCases += c.getCases();
+                        System.out.print( Color.CYAN + COUNTRY + Color.RESET + c.getCountry());
+                        System.out.print( Color.CYAN + CASES + Color.RESET + c.getCases());
+                        System.out.println( Color.CYAN + DEATHS + Color.RESET + c.getDeaths());
+                        checkCountries.add(finalCountry);
+                    }
+                    else {
+                        if (!containsCaseInsensitive(finalCountry, checkCountries)) {
+                            totalDeaths += c.getDeaths();
+                            totalCases += c.getCases();
+                            System.out.print( Color.CYAN + COUNTRY + Color.RESET + c.getCountry());
+                            System.out.print( Color.CYAN + CASES + Color.RESET + c.getCases());
+                            System.out.println( Color.CYAN + DEATHS + Color.RESET + c.getDeaths());
+                            checkCountries.add(finalCountry);
+                        }
+                    }
+                }
+            });
 
-            final int[] LIST_MONTHS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-//            for (int month: LIST_MONTHS ) {
-//                Arrays.stream(dataArray)
-//                        .filter(m -> m.getMonth() == month)
-//                        .forEach(data -> {
-//                            if(data.getMonth() > 0){
-//                                tempMonth = month;
-//                                if(!(tempMonth == tempMonth2)){
-//                                    tempMonth2 = tempMonth;
-//                                    totalMonths += data.getDeaths();
-//
-//                                    System.out.println(totalMonths);
-//                                }
-//                            }
-//                        });
-//            }
-
+            System.out.print(LINE);
             // Display Stats
-            System.out.println(Color.YELLOW + "Total Deaths and Case from all countries:"  + Color.RESET );
+            System.out.println(Color.YELLOW + "Total Deaths and Cases from all countries:"  + Color.RESET );
             System.out.println(Color.CYAN + TOTAL_DEATHS + Color.RESET + totalDeaths +
-                    Color.CYAN + TOTAL_CASES  + Color.RESET + totalCases  );
+                    Color.CYAN + TOTAL_CASES  + Color.RESET + totalCases );
+
+            System.out.print(LINE);
+
+            System.out.println(Color.YELLOW + "The countries with the most and the fewest deaths-cases:\n"  + Color.RESET );
+            List<Country> sortedListDeaths = countries.stream()
+                    .sorted(Comparator.comparingInt(o -> o.deaths)).toList();
+
+            List<Country> sortedListCases = countries.stream()
+                    .sorted(Comparator.comparingInt(o -> o.cases)).toList();
+            //System.out.println(sortedList);
+            String minDeaths = String.valueOf(sortedListDeaths.stream().findFirst().stream().toList());
+            String maxDeaths = String.valueOf(sortedListDeaths.get(sortedListDeaths.size() - 1));
+            String minCases = String.valueOf(sortedListCases.stream().findFirst().stream().toList());
+            String maxCases = String.valueOf(sortedListCases.get(sortedListCases.size() - 1));
+
+            minDeaths = minDeaths.replace("]","");
+            minDeaths = minDeaths.replace("[","");
+            minCases = minCases.replace("]","");
+            minCases = minCases.replace("[","");
+
+            System.out.println(Color.CYAN + "More deaths : "  + Color.RESET + maxDeaths);
+            System.out.println(Color.CYAN + "More cases : "  + Color.RESET + maxCases + "\n");
+            System.out.println(Color.CYAN + "Fewer deaths : "  + Color.RESET + minDeaths );
+            System.out.println(Color.CYAN + "Fewer cases : "  + Color.RESET + minCases);
+
+
+            System.out.print(LINE);
+
+            Double averageCase = countries.stream().collect(Collectors.averagingInt(s->s.cases));
+            Double averageDeaths = countries.stream().collect(Collectors.averagingInt(s->s.deaths));
+            System.out.println(Color.YELLOW + "Deaths and Cases Average:\n"  + Color.RESET );
+            System.out.println(Color.CYAN + "Average Deaths: "  + Color.RESET + averageDeaths);
+            System.out.println(Color.CYAN + "Average Cases: "  + Color.RESET + averageCase);
+
             System.out.println(LINE);
 
 
