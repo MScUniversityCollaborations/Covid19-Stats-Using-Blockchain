@@ -45,6 +45,7 @@ public class GetFromDatabase {
                     }
                     );
 
+            // Display Stats
             System.out.println(Color.YELLOW + "You have searched the following countries:\n" + Color.RESET);
             searchedCountries.forEach(System.out::println);
 
@@ -77,6 +78,7 @@ public class GetFromDatabase {
             });
 
             System.out.print(LINE);
+
             // Display Stats
             System.out.println(Color.YELLOW + "Total Deaths and Cases from all countries:"  + Color.RESET );
             System.out.println(Color.CYAN + TOTAL_DEATHS + Color.RESET + totalDeaths +
@@ -91,12 +93,13 @@ public class GetFromDatabase {
 
             List<Country> sortedListCases = countries.stream()
                     .sorted(Comparator.comparingInt(o -> o.cases)).toList();
-            //System.out.println(sortedList);
+
             String minDeaths = sortedListDeaths.stream().findFirst().get().toString();
             String maxDeaths = String.valueOf(sortedListDeaths.get(sortedListDeaths.size() - 1));
             String minCases = String.valueOf(sortedListCases.stream().findFirst().get().toString());
             String maxCases = String.valueOf(sortedListCases.get(sortedListCases.size() - 1));
 
+            // Display Stats
             System.out.println(Color.CYAN + "More deaths : "  + Color.RESET + maxDeaths);
             System.out.println(Color.CYAN + "More cases : "  + Color.RESET + maxCases + "\n");
             System.out.println(Color.CYAN + "Fewer deaths : "  + Color.RESET + minDeaths );
@@ -108,6 +111,7 @@ public class GetFromDatabase {
             Double averageCase = countries.stream().collect(Collectors.averagingInt(s->s.cases));
             Double averageDeaths = countries.stream().collect(Collectors.averagingInt(s->s.deaths));
 
+            // Display Stats
             System.out.println(Color.YELLOW + "Deaths and Cases Average:\n"  + Color.RESET );
             System.out.println(Color.CYAN + "Average Deaths: "  + Color.RESET + averageDeaths);
             System.out.println(Color.CYAN + "Average Cases: "  + Color.RESET + averageCase);
@@ -120,7 +124,7 @@ public class GetFromDatabase {
 
     }
 
-    public boolean containsCaseInsensitive(String s, List<String> l) {
+    private boolean containsCaseInsensitive(String s, List<String> l) {
         for (String string : l) {
             if (string.equalsIgnoreCase(s)) {
                 return true;
