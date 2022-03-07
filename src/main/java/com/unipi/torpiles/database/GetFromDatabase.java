@@ -18,7 +18,7 @@ public class GetFromDatabase {
     String tempCountry2 = null;
     int tempMonth;
     int tempMonth2 = 0;
-    final List<String> countries = new ArrayList<>();
+    // final List<String> countries = new ArrayList<>();
     final List<String> countries2 = new ArrayList<>();
     public void resultStats() {
 
@@ -27,10 +27,11 @@ public class GetFromDatabase {
         RecordForStats[] dataArray = DBManager.getInstance().dataForStats().toArray(new RecordForStats[0]);
         if (!DBManager.getInstance().dataForStats().isEmpty()) {
 
+            ArrayList<String> searchedCountries = new ArrayList<>();
+
             System.out.print(LINE);
             // All Countries
             Arrays.stream(dataArray)
-
                     .forEach(asd -> {
 //                        tempCountry = asd.getCountry();
 //                        if (!tempCountry.equalsIgnoreCase(tempCountry2)) {
@@ -38,18 +39,21 @@ public class GetFromDatabase {
 //                            countries.add(tempCountry2);
 //                            //System.out.println(tempCountry2);
 //                        }
-                        System.out.println(asd.getCountry());
-                        for (String c: countries) {
-                            if(asd.getCountry().equalsIgnoreCase(c)){
-                                countries.add(asd.getCountry());
-                            }
 
+                        String country = asd.getCountry();
+
+                        if (searchedCountries.isEmpty()) {
+                            searchedCountries.add(country);
                         }
-
+                        else {
+                            if (!containsCaseInsensitive(country, searchedCountries)) {
+                                searchedCountries.add(country);
+                            }
+                        }
                     });
 
             System.out.println(Color.YELLOW + "You have searched the following countries:\n" + Color.RESET);
-            countries.forEach(System.out::println);
+            searchedCountries.forEach(System.out::println);
 
 
             System.out.println("You have searched the following countries:");
@@ -118,6 +122,15 @@ public class GetFromDatabase {
 
 
 
+    }
+
+    public boolean containsCaseInsensitive(String s, List<String> l) {
+        for (String string : l) {
+            if (string.equalsIgnoreCase(s)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
