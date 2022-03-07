@@ -24,12 +24,12 @@ public class Main {
 
         dbManagerInstance.initializeTable();
 
-       //resultStats(new UserInput().choices());
+       resultStats(new UserInput().choices());
 
         // For Test
         // new UserInput().months();
         // new GetFromDataset().searchByCountryAndMonths();
-        new GetFromDatabase().resultStats();
+        // new GetFromDatabase().resultStats();
     }
 
     private static void resultStats(String choice) throws IOException, InterruptedException, SQLException {

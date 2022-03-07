@@ -1,6 +1,5 @@
 package com.unipi.torpiles.database;
 
-import com.unipi.torpiles.models.Record;
 import com.unipi.torpiles.models.RecordForStats;
 import com.unipi.torpiles.models.Statistic;
 import com.unipi.torpiles.utils.Constants;
@@ -8,13 +7,14 @@ import com.unipi.torpiles.utils.blockchain.Block;
 import com.unipi.torpiles.utils.blockchain.BlockChain;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.unipi.torpiles.utils.Constants.DB_URL;
-import static com.unipi.torpiles.utils.Constants.LINE;
 
 public class DBManager extends BlockChain {
 
@@ -113,12 +113,12 @@ public class DBManager extends BlockChain {
 
                     int count = preparedStatement.executeUpdate();
                     if (count > 0) {
-                        System.out.println(count+" Record updated");
+                       // System.out.println(count+" Record updated");
                     }
 
                     // Closing the statement.
                     preparedStatement.close();
-                    System.out.println("Insertion to database completed!");
+                    //System.out.println("Insertion to database completed!");
                 } catch (SQLException e) {
                     Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
                 }
@@ -203,12 +203,12 @@ public class DBManager extends BlockChain {
 
                     int count = preparedStatement.executeUpdate();
                     if (count > 0) {
-                        System.out.println(count+" Record updated");
+                        //System.out.println(count+" Record updated");
                     }
 
                     // Closing the statement.
                     preparedStatement.close();
-                    System.out.println("Insert to database completed!");
+                    //System.out.println("Insert to database completed!");
                 } catch (SQLException e) {
                     Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
                 }
@@ -234,12 +234,12 @@ public class DBManager extends BlockChain {
 
                     int count = preparedStatement.executeUpdate();
                     if (count > 0) {
-                        System.out.println(count+" Record updated");
+                       // System.out.println(count+" Record updated");
                     }
 
                     // Closing the statement.
                     preparedStatement.close();
-                    System.out.println("Insertion to database completed!");
+                    //System.out.println("Insertion to database completed!");
                 } catch (SQLException e) {
                     Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, e);
                 }
@@ -288,5 +288,4 @@ public class DBManager extends BlockChain {
 
         return listData;
     }
-
 }

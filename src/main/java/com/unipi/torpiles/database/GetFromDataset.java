@@ -27,7 +27,7 @@ public class GetFromDataset {
     public void searchByCountryAndMonths(List<String> months, String countryFromUser) {
 
         ConsoleProgress progress = new ConsoleProgress();
-        progress.setTimeSleep(0); // TODO Change the sleep time
+        progress.setTimeSleep(1000); // TODO Change the sleep time
         progress.setDaemon(true);
         progress.start();
 
@@ -78,12 +78,6 @@ public class GetFromDataset {
 
                     totalDeaths += monthlyDeaths;
                     totalCases += monthlyCases;
-
-//                    System.out.println(month);
-//                    System.out.println("monthlyDeaths " +monthlyDeaths );
-//                    System.out.println("monthlyCases " +monthlyCases );
-//                    System.out.println("total " +totalDeaths );
-//                    System.out.println("total " +totalCases );
 
                     DBManager.getInstance().addNewEntry(
                             COUNTRY,

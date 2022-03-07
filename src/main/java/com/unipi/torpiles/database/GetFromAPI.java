@@ -21,7 +21,7 @@ public class GetFromAPI {
     public void searchByCountry(String country) throws IOException, InterruptedException {
 
         ConsoleProgress progress = new ConsoleProgress();
-        progress.setTimeSleep(10);
+        progress.setTimeSleep(800);
         progress.setDaemon(true);
         progress.start();
 

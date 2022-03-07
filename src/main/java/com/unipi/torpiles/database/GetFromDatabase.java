@@ -3,6 +3,7 @@ package com.unipi.torpiles.database;
 import com.unipi.torpiles.models.Country;
 import com.unipi.torpiles.models.RecordForStats;
 import com.unipi.torpiles.utils.console.Color;
+import com.unipi.torpiles.utils.console.ConsoleProgress;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,10 +17,19 @@ public class GetFromDatabase {
     long totalDeaths = 0 ;
     long totalCases = 0;
 
-    public void resultStats() {
+    public void resultStats() throws InterruptedException {
+
+        ConsoleProgress progress = new ConsoleProgress();
+        progress.setTimeSleep(60);
+        progress.setDaemon(true);
+        progress.start();
+
 
         System.out.println(Color.CYAN + "COVID STATS FROM DATABASE" + Color.RESET);
         RecordForStats[] dataArray = DBManager.getInstance().dataForStats().toArray(new RecordForStats[0]);
+
+        progress.join();
+
         if (!DBManager.getInstance().dataForStats().isEmpty()) {
 
             ArrayList<String> searchedCountries = new ArrayList<>();

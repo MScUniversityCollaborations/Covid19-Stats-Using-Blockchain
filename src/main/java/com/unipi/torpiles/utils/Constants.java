@@ -7,7 +7,6 @@ public final class Constants {
     // Display
     public static final String TITLE = "\nCovid-19 Stats\n";
     public static final String LINE = "-------------------------------------------------------------------------\n";
-    public static final String DOTS = "....\n";
     public static final String STATS = "\nStats for:\040";
     public static final String TOTAL_CASES = "\n-Total Cases:\040";
     public static final String TOTAL_DEATHS = "\n-Total Deaths:\040";
