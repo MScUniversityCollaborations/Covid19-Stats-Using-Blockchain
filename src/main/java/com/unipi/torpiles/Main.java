@@ -24,7 +24,7 @@ public class Main {
 
         dbManagerInstance.initializeTable();
 
-        //resultStats(new UserInput().choices());
+       //resultStats(new UserInput().choices());
 
         // For Test
         // new UserInput().months();
@@ -32,7 +32,7 @@ public class Main {
         new GetFromDatabase().resultStats();
     }
 
-    private static void resultStats(String choice) throws IOException, InterruptedException {
+    private static void resultStats(String choice) throws IOException, InterruptedException, SQLException {
 
         switch (choice) {
             case "1" -> new GetFromAPI().searchByCountry(new UserInput().country());
@@ -50,7 +50,7 @@ public class Main {
 
             default -> System.out.println(Color.RED + ERR_WRONG + Color.RESET);
         }
-        Thread.sleep(1666);
-        //main(new String[] {"Call main again"});
+        //Thread.sleep(1666);
+        main(new String[] {"Call main again"});
     }
 }

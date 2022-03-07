@@ -22,58 +22,71 @@ public class GetFromDatabase {
     final List<String> countries2 = new ArrayList<>();
     public void resultStats() {
 
-
+        System.out.println(Color.CYAN + "COVID STATS FROM DATABASE" + Color.RESET);
+        List<RecordForStats> data = DBManager.getInstance().dataForStats();
         RecordForStats[] dataArray = DBManager.getInstance().dataForStats().toArray(new RecordForStats[0]);
         if (!DBManager.getInstance().dataForStats().isEmpty()) {
-            List<RecordForStats> data = DBManager.getInstance().dataForStats();
+
             System.out.print(LINE);
             // All Countries
             Arrays.stream(dataArray)
-                    .forEach(asd -> {
-                        tempCountry = asd.getCountry();
-                        if (!tempCountry.equals(tempCountry2)) {
-                            tempCountry2 = tempCountry;
-                            countries.add(tempCountry2);
-                            System.err.println(tempCountry2);
-                        }
-                    });
-            countries.forEach(System.out::println);
-//            String country;
-//            String country2 = null;
-//            System.out.println("You have searched the following countries:");
-//            for (RecordForStats c2 : data) {
-//                country = c2.getCountry(); // Greece
-//                if (!country.equals(country2)) {
-//                    country2 = country;
-//                    countries2.add(country2);
-//                    System.err.println(country2);
-//                }
-//            }
 
-           // System.out.println(Color.YELLOW + "You have searched the following countries:\n" + Color.RESET);
+                    .forEach(asd -> {
+//                        tempCountry = asd.getCountry();
+//                        if (!tempCountry.equalsIgnoreCase(tempCountry2)) {
+//                            tempCountry2 = tempCountry;
+//                            countries.add(tempCountry2);
+//                            //System.out.println(tempCountry2);
+//                        }
+                        System.out.println(asd.getCountry());
+                        for (String c: countries) {
+                            if(asd.getCountry().equalsIgnoreCase(c)){
+                                countries.add(asd.getCountry());
+                            }
+
+                        }
+
+                    });
+
+            System.out.println(Color.YELLOW + "You have searched the following countries:\n" + Color.RESET);
+            countries.forEach(System.out::println);
+
+
+            System.out.println("You have searched the following countries:");
+            for (RecordForStats c2 : data) {
+
+                for (String c: countries2) {
+                    if(c.equalsIgnoreCase(c2.getCountry())){
+                        countries2.add(c2.getCountry());
+                    }
+
+                }
+            }
+            countries2.forEach(System.out::println);
+
             //countries.forEach(System.out::println);
             //countries2.forEach(System.out::println);
             System.out.print(LINE);
 
             // Calculate total deaths and cases
-            for (String country: countries) {
-                Arrays.stream(dataArray)
-                        .filter(country2 -> country2.getCountry().equals(country))
-                        .forEach(data1 -> {
-                            if(data1.getMonth() == 0){
-                                        tempCountry = country;
-                                        if(!tempCountry.equals(tempCountry2)){
-                                            tempCountry2 = tempCountry;
-
-                                            totalDeaths += data1.getDeaths();
-                                            totalCases += data1.getCases();
-
-
-                                        }
-                            }
-                        }
-                );
-            }
+//            for (String country: countries) {
+//                Arrays.stream(dataArray)
+//                        .filter(country2 -> country2.getCountry().equals(country))
+//                        .forEach(data1 -> {
+//                            if(data1.getMonth() == 0){
+//                                        tempCountry = country;
+//                                        if(!tempCountry.equals(tempCountry2)){
+//                                            tempCountry2 = tempCountry;
+//
+//                                            totalDeaths += data1.getDeaths();
+//                                            totalCases += data1.getCases();
+//
+//
+//                                        }
+//                            }
+//                        }
+//                );
+//            }
 
             final int[] LIST_MONTHS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 //            for (int month: LIST_MONTHS ) {
