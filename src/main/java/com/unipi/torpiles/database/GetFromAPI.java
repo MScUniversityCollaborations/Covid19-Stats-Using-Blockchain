@@ -1,16 +1,15 @@
 package com.unipi.torpiles.database;
 
 import com.google.gson.Gson;
+import com.unipi.torpiles.utils.UserInput;
 import com.unipi.torpiles.utils.console.Color;
 import com.unipi.torpiles.utils.console.ConsoleProgress;
-import com.unipi.torpiles.utils.UserInput;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
 import java.util.Map;
 
 import static com.unipi.torpiles.utils.Constants.*;
