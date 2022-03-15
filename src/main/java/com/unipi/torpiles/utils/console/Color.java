@@ -2,10 +2,10 @@ package com.unipi.torpiles.utils.console;
 
 public enum Color {
 
-        //Color reset
+        // Color reset
         RESET("\033[0m"),
 
-        // Colors.
+        // Colors
         BLACK("\033[0;30m"),    // BLACK
         RED("\033[0;31m"),      // RED
         GREEN("\033[0;32m"),    // GREEN

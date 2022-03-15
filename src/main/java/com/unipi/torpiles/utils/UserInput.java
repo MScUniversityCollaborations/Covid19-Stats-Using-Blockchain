@@ -12,19 +12,22 @@ import static com.unipi.torpiles.utils.Constants.*;
 
 public class UserInput {
 
+    // Scanner Instance
     Scanner sc = new Scanner(System.in);
 
+    // Get country from User
     public String country() {
         System.out.println("Enter country:" + Color.WHITE + "\nex: Greece" + Color.RESET);
 
         return sc.nextLine();
     }
 
+    // Get months from User
     public List<String> months(){
         List<String> sortMonths = null;
 
         try {
-                while (true) {
+                while (true) { // Check if the user entered the months correctly
                     System.out.println(MESS_INPUT_MONTHS);
                     String monthUserInput = sc.nextLine();
                     //System.err.println(monthUserInput);
@@ -52,12 +55,14 @@ public class UserInput {
                     }
                 }
         } catch (Exception e) {
+            // Display error message
             System.out.println(Color.RED + ERR_WRONG + Color.RESET);
             System.out.println(Color.RED + ERR_INVALID_IMPORT + Color.RESET);
         }
         return sortMonths;
     }
 
+    // User choice what he wants to look for
     public String choices(){
         System.out.println(MESS_INPUT_CHOICE);
 

@@ -20,24 +20,26 @@ public class GetFromAPI {
 
     public void searchByCountry(String country) throws IOException, InterruptedException {
 
+        // Progress Instance
         ConsoleProgress progress = new ConsoleProgress();
-        progress.setTimeSleep(850);
+        progress.setTimeSleep(850); // Set time sleep
         progress.setDaemon(true);
-        progress.start();
+        progress.start(); // Start Thread
 
-        //API URL for the connection
+        // API URL for the connection
         URL apiURL = new URL(URL_COUNTRY_API + country);
 
         try {
 
-            //Open Connection
+            // Open Connection
             URLConnection urlConnect = apiURL.openConnection();
 
-            //Create  buffer reader
+            // Create buffer reader
             BufferedReader  buffer = new BufferedReader(
                     new InputStreamReader(
                             urlConnect.getInputStream()));
 
+            // Join the Thread
             progress.join();
 
             String resultsFromAPI;
@@ -45,7 +47,7 @@ public class GetFromAPI {
 
                 //System.err.println("Results: " + resultsFromAPI + "\n");
 
-                //  Results from API:
+                //  Results from API in JSON:
                 //  {"data":
                 //      {"location":"string","confirmed":number,"deaths":number,"recovered":0,"active":0},
                 //  "dt":"date",
@@ -61,9 +63,10 @@ public class GetFromAPI {
                     // Create new map for data in "data"
                     Map<?,?> resultData = (Map<?, ?>) result.get("data");
 
-                    //Check if country exists
+                    // Check if country exists
                     if(resultData.get("location") != null){
 
+                        // Convert result to the correct type
                         String location = resultData.get("location").toString();
                         long confirmed = Double.valueOf(String.valueOf(resultData.get("confirmed"))).longValue();
                         long deaths = Double.valueOf(String.valueOf(resultData.get("deaths"))).longValue();
@@ -80,6 +83,7 @@ public class GetFromAPI {
                             Color.CYAN + LAST_UPDATE + Color.RESET+ result.get("dt")
                         );
 
+                        // Save results on the blockchain
                         DBManager.getInstance().addNewEntry(
                                 location,
                                 (int) confirmed,
@@ -89,6 +93,7 @@ public class GetFromAPI {
                                 0);
 
                     }else {
+                        // Display error messages if the country does not exist
                         System.out.print(Color.RED + ERR_WRONG + Color.RESET);
                         System.out.println(Color.RED + ERR_NOT_FOUND_COUNTRY + Color.RESET);
                         searchByCountry(new UserInput().country());
@@ -98,9 +103,10 @@ public class GetFromAPI {
                     ex.printStackTrace();
                 }
             }
-            buffer.close();
+            buffer.close(); // Close the Buffer
 
         }catch(IOException | InterruptedException e){
+                // Display error message if network connection is lost
                 System.out.println(Color.RED + ERR_INTERNET_CONN + Color.RESET);
                 e.printStackTrace();
         }

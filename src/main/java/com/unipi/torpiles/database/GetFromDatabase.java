@@ -19,31 +19,37 @@ public class GetFromDatabase {
 
     public void resultStats() throws InterruptedException {
 
+        // Progress Instance
         ConsoleProgress progress = new ConsoleProgress();
         progress.setTimeSleep(60);
         progress.setDaemon(true);
         progress.start();
 
-
         System.out.println(Color.CYAN + "COVID STATS FROM DATABASE" + Color.RESET);
+
+        // Get results from Blockchain and save them to a RecordForStats array
         RecordForStats[] dataArray = DBManager.getInstance().dataForStats().toArray(new RecordForStats[0]);
 
         progress.join();
 
-        if (!DBManager.getInstance().dataForStats().isEmpty()) {
+        if (!DBManager.getInstance().dataForStats().isEmpty()) { // If blockchain does not empty
 
+            // Auxiliary Arrays and List to calculate stats
             ArrayList<String> searchedCountries = new ArrayList<>();
             ArrayList<String> checkCountries = new ArrayList<>();
             List<Country> countries = new ArrayList<>();
 
             System.out.print(LINE);
-            // All Countries
+
+            // Find all the countries the user searched for and save them in searchedCountries
             Arrays.stream(dataArray)
                     .sorted((s1,s2)-> 0)
                     .forEach(c -> {
                         String country = c.getCountry();
                         if (searchedCountries.isEmpty()) {
                             searchedCountries.add(country);
+
+                            // Save (countries list) information for each country to use later
                             countries.add(new Country(country,c.getDeaths(),c.getCases()));
                         }
                         else {
@@ -55,13 +61,13 @@ public class GetFromDatabase {
                     }
                     );
 
-            // Display Stats
+            // Display Countries
             System.out.println(Color.YELLOW + "You have searched the following countries:\n" + Color.RESET);
             searchedCountries.forEach(System.out::println);
 
             System.out.print(LINE);
 
-            // Calculate total deaths and cases
+            // Calculate total deaths and cases for each county on Blockchain
             System.out.println(Color.YELLOW + "Deaths and Cases for each country:\n"  + Color.RESET );
             Arrays.stream(dataArray).forEach(c -> {
                 if(c.getMonth() == 0){
@@ -69,18 +75,26 @@ public class GetFromDatabase {
                     if (checkCountries.isEmpty()) {
                         totalDeaths += c.getDeaths();
                         totalCases += c.getCases();
+
+                        // Display stats for each Country
                         System.out.print( Color.CYAN + COUNTRY + Color.RESET + c.getCountry());
                         System.out.print( Color.CYAN + CASES + Color.RESET + c.getCases());
                         System.out.println( Color.CYAN + DEATHS + Color.RESET + c.getDeaths());
+
+                        // Save country on checkCountries so as not to add it again
                         checkCountries.add(finalCountry);
                     }
                     else {
                         if (!containsCaseInsensitive(finalCountry, checkCountries)) {
                             totalDeaths += c.getDeaths();
                             totalCases += c.getCases();
+
+                            // Display stats for each Country
                             System.out.print( Color.CYAN + COUNTRY + Color.RESET + c.getCountry());
                             System.out.print( Color.CYAN + CASES + Color.RESET + c.getCases());
                             System.out.println( Color.CYAN + DEATHS + Color.RESET + c.getDeaths());
+
+                            // Save country on checkCountries so as not to add it again
                             checkCountries.add(finalCountry);
                         }
                     }
@@ -89,7 +103,7 @@ public class GetFromDatabase {
 
             System.out.print(LINE);
 
-            // Display Stats
+            // Display Stats total deaths and cases
             System.out.println(Color.YELLOW + "Total Deaths and Cases from all countries:"  + Color.RESET );
             System.out.println(Color.CYAN + TOTAL_DEATHS + Color.RESET + totalDeaths +
                     Color.CYAN + TOTAL_CASES  + Color.RESET + totalCases );
@@ -97,7 +111,8 @@ public class GetFromDatabase {
             System.out.print(LINE);
 
             // Calculate most and fewest deaths/cases
-            System.out.println(Color.YELLOW + "The countries with the most and the fewest deaths-cases:\n"  + Color.RESET );
+            System.out.println(Color.YELLOW + "The countries with the most and the least deaths-cases:\n"  + Color.RESET );
+
             List<Country> sortedListDeaths = countries.stream()
                     .sorted(Comparator.comparingInt(o -> o.deaths)).toList();
 
@@ -109,7 +124,7 @@ public class GetFromDatabase {
             String minCases = String.valueOf(sortedListCases.stream().findFirst().get().toString());
             String maxCases = String.valueOf(sortedListCases.get(sortedListCases.size() - 1));
 
-            // Display Stats
+            // Display the most and the least deaths-cases
             System.out.println(Color.CYAN + "More deaths : "  + Color.RESET + maxDeaths);
             System.out.println(Color.CYAN + "More cases : "  + Color.RESET + maxCases + "\n");
             System.out.println(Color.CYAN + "Fewer deaths : "  + Color.RESET + minDeaths );
@@ -117,11 +132,11 @@ public class GetFromDatabase {
 
             System.out.print(LINE);
 
-            // Calculate Average
+            // Calculate Average death and case
             Double averageCase = countries.stream().collect(Collectors.averagingInt(s->s.cases));
             Double averageDeaths = countries.stream().collect(Collectors.averagingInt(s->s.deaths));
 
-            // Display Stats
+            // Display Average
             System.out.println(Color.YELLOW + "Deaths and Cases Average:\n"  + Color.RESET );
             System.out.println(Color.CYAN + "Average Deaths: "  + Color.RESET + averageDeaths);
             System.out.println(Color.CYAN + "Average Cases: "  + Color.RESET + averageCase);
@@ -129,11 +144,13 @@ public class GetFromDatabase {
             System.out.println(LINE);
 
         }else {
+            //If the user has not searched then no local data has been saved, so we can not calculate statistics
             System.out.println(Color.RED + ERR_NOT_STATS_FOUND + Color.RESET);
         }
 
     }
 
+    // Auxiliary method to avoid duplication in statistics
     private boolean containsCaseInsensitive(String s, List<String> l) {
         for (String string : l) {
             if (string.equalsIgnoreCase(s)) {

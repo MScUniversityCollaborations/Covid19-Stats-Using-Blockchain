@@ -31,13 +31,6 @@ public class Statistic {
         this.active = active;
     }
 
-    public Statistic(String location, Integer confirmed, Integer deaths, Integer month) {
-        this.location = location;
-        this.confirmed = confirmed;
-        this.deaths = deaths;
-        this.month = month;
-    }
-
     public String jsonMaker()
     {
         return GSON.toJson(this);

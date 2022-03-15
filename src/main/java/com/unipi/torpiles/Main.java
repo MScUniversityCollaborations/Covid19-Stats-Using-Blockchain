@@ -23,13 +23,8 @@ public class Main {
                 Color.CYAN + TITLE + Color.RESET);
 
         dbManagerInstance.initializeTable();
+        resultStats(new UserInput().choices()); // Call resultStats to show choices and start program
 
-       resultStats(new UserInput().choices());
-
-        // For Test
-        // new UserInput().months();
-        // new GetFromDataset().searchByCountryAndMonths();
-        // new GetFromDatabase().resultStats();
     }
 
     private static void resultStats(String choice) throws IOException, InterruptedException, SQLException {
@@ -50,7 +45,7 @@ public class Main {
 
             default -> System.out.println(Color.RED + ERR_WRONG + Color.RESET);
         }
-        //Thread.sleep(1666);
+
         main(new String[] {"Call main again"});
     }
 }

@@ -5,14 +5,12 @@ import com.unipi.torpiles.models.Record;
 import com.unipi.torpiles.utils.console.Color;
 import com.unipi.torpiles.utils.console.ConsoleProgress;
 
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static com.unipi.torpiles.utils.Constants.*;
 
@@ -26,8 +24,9 @@ public class GetFromDataset {
 
     public void searchByCountryAndMonths(List<String> months, String countryFromUser) {
 
+        // Progress Instance
         ConsoleProgress progress = new ConsoleProgress();
-        progress.setTimeSleep(1000); // TODO Change the sleep time
+        progress.setTimeSleep(1000);
         progress.setDaemon(true);
         progress.start();
 
@@ -55,6 +54,7 @@ public class GetFromDataset {
                 i++;
             }
 
+            // If user input: "greECE" then COUNTRY = "Greece"
             final String COUNTRY = countryFromUser.substring(0,1).toUpperCase()
                     + countryFromUser.substring(1).toLowerCase();
 
@@ -63,6 +63,7 @@ public class GetFromDataset {
                     .anyMatch(Record -> Record.getCountry().equals(COUNTRY));
 
             if(!existCountry){
+                // Display error messages if country isn't exists
                 System.out.println(ERR_NOT_FOUND_COUNTRY);
             } else {
                 for (String month : monthsForResult) {
@@ -70,15 +71,17 @@ public class GetFromDataset {
                             .filter(country -> country.getCountry().equals(COUNTRY))
                             .forEach(data -> {
                                     if (data.getMonth().equals(month)) {
-                                        //System.out.println("Month" + month);
+                                        // Calculate monthly deaths and cases
                                         monthlyDeaths += data.getDeaths();
                                         monthlyCases += data.getCases();
                                     }
                             });
 
+                    // Calculate total
                     totalDeaths += monthlyDeaths;
                     totalCases += monthlyCases;
 
+                    // Save results on the blockchain
                     DBManager.getInstance().addNewEntry(
                             COUNTRY,
                             monthlyDeaths,
@@ -98,14 +101,6 @@ public class GetFromDataset {
                                 Color.CYAN + TOTAL_ACTIVES + Color.RESET + "0"
                         );
             }
-
-//            Arrays.stream(recordArray)
-//                    .filter(country -> country.getCountry().equals("Greece"))
-//                    .forEach(data->{
-//                        totalDeaths += data.getDeaths();
-//                        totalCases += data.getCases();
-//                    });
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
